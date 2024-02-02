@@ -109,3 +109,32 @@
 {"level":"info","message":"App listening on port 3500"}
 {"level":"info","message":"Connected to the database"}
 {"level":"info","message":"Received POST request at /api/users/login"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"Received POST request at /api/students"}
+{"_message":"Student validation failed","errors":{"age":{"kind":"required","message":"Path `age` is required.","name":"ValidatorError","path":"age","properties":{"message":"Path `age` is required.","path":"age","type":"required"}},"dateOfAdmission":{"kind":"required","message":"Path `dateOfAdmission` is required.","name":"ValidatorError","path":"dateOfAdmission","properties":{"message":"Path `dateOfAdmission` is required.","path":"dateOfAdmission","type":"required"}},"fullName":{"kind":"required","message":"Path `fullName` is required.","name":"ValidatorError","path":"fullName","properties":{"message":"Path `fullName` is required.","path":"fullName","type":"required"}},"gender":{"kind":"required","message":"Path `gender` is required.","name":"ValidatorError","path":"gender","properties":{"message":"Path `gender` is required.","path":"gender","type":"required"}},"idNumber":{"kind":"required","message":"Path `idNumber` is required.","name":"ValidatorError","path":"idNumber","properties":{"message":"Path `idNumber` is required.","path":"idNumber","type":"required"}},"stream":{"kind":"required","message":"Path `stream` is required.","name":"ValidatorError","path":"stream","properties":{"message":"Path `stream` is required.","path":"stream","type":"required"}}},"level":"error","message":"Unhandled Promise Rejection: Student validation failed: dateOfAdmission: Path `dateOfAdmission` is required., gender: Path `gender` is required., idNumber: Path `idNumber` is required., stream: Path `stream` is required., age: Path `age` is required., fullName: Path `fullName` is required.","stack":"ValidationError: Student validation failed: dateOfAdmission: Path `dateOfAdmission` is required., gender: Path `gender` is required., idNumber: Path `idNumber` is required., stream: Path `stream` is required., age: Path `age` is required., fullName: Path `fullName` is required.\n    at Document.invalidate (C:\\Users\\atina\\OneDrive\\Desktop\\STMS\\implementation\\backend\\node_modules\\mongoose\\lib\\document.js:3201:32)\n    at C:\\Users\\atina\\OneDrive\\Desktop\\STMS\\implementation\\backend\\node_modules\\mongoose\\lib\\document.js:2994:17\n    at C:\\Users\\atina\\OneDrive\\Desktop\\STMS\\implementation\\backend\\node_modules\\mongoose\\lib\\schemaType.js:1370:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:77:11)"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"Received POST request at /api/students"}
+{"level":"info","message":"Received GET request at /api/students"}
+{"level":"info","message":"Received POST request at /api/students"}

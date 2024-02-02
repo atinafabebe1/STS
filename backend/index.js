@@ -8,6 +8,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const userRoutes = require('./routes/user')
+const studentRoutes = require('./routes/student')
 
 const app = express();
 const port = process.env.PORT || 3500;
@@ -32,6 +33,7 @@ app.use(bodyParser.json());
 
 // Register the route files
 app.use('/api/users', userRoutes);
+app.use('/api/students', studentRoutes);
 
 // Connect to the database
 connectToDb((err) => {
