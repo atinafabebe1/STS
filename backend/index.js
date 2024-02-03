@@ -11,6 +11,7 @@ const userRoutes = require('./routes/user')
 const studentRoutes = require('./routes/student')
 const subjectRoutes = require('./routes/subject')
 const streamRoutes = require('./routes/stream')
+const gradeRoutes = require('./routes/grade')
 
 const app = express();
 const port = process.env.PORT || 3500;
@@ -25,10 +26,10 @@ const logger = winston.createLogger({
 });
 
 // Log requests
-app.use((req, res, next) => {
-    logger.info(`Received ${req.method} request at ${req.originalUrl}`);
-    next();
-});
+// app.use((req, res, next) => {
+//     logger.info(`Received ${req.method} request at ${req.originalUrl}`);
+//     next();
+// });
 
 app.use(bodyParser.json());
 
@@ -38,6 +39,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/streams', streamRoutes);
+app.use('/api/grades', gradeRoutes);
 
 // Connect to the database
 connectToDb((err) => {

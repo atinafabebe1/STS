@@ -7,9 +7,11 @@ const {
     updateStudentById,
     deleteStudentById
 } = require('../controllers/student');
+const advancedResult = require('../middlewares/advancedResult')
+const StudentModel = require('../models/student')
 
 router.post('/', createStudent);
-router.get('/', getAllStudents);
+router.get('/', advancedResult(StudentModel, 'stream'), getAllStudents);
 router.get('/:id', getStudentById);
 router.patch('/:id', updateStudentById);
 router.delete('/:id', deleteStudentById);

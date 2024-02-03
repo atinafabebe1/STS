@@ -14,13 +14,7 @@ const createStudent = async (req, res) => {
 
 // Get all students
 const getAllStudents = async (req, res) => {
-    try {
-        const students = await Student.find();
-        res.json({ students });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Server Error');
-    }
+    res.status(200).json(res.advancedResults);
 };
 
 // Get a student by ID
