@@ -169,3 +169,50 @@
 {"level":"info","message":"Connected to the database"}
 {"level":"info","message":"App listening on port 3500"}
 {"level":"info","message":"Connected to the database"}
+{"level":"info","message":"Received POST request at /api/subjects"}
+{"level":"info","message":"Received POST request at /api/subjects"}
+{"level":"info","message":"Received POST request at /api/subjects"}
+{"level":"info","message":"Received POST request at /api/subjects"}
+{"level":"info","message":"Received POST request at /api/subjects"}
+{"level":"info","message":"Received GET request at /api/subjects"}
+{"level":"info","message":"Received PATCH request at /api/subjects/65bde904786cde99b54788d2"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"Received PATCH request at /api/subjects/65bde904786cde99b54788d2"}
+{"level":"info","message":"Received GET request at /api/subjects"}
+{"level":"info","message":"Received GET request at /api/subjects"}
+{"level":"info","message":"Received PATCH request at /api/subjects/65bde904786cde99b54788d2"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"Received POST request at /api/streams"}
+{"level":"info","message":"Received GET request at /api/streams"}
+{"level":"info","message":"Received POST request at /api/streams"}
+{"level":"info","message":"Received POST request at /api/streams"}
+{"level":"info","message":"Received GET request at /api/streams"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"Received POST request at /api/streams/addSubjectToStream"}
+{"level":"info","message":"Received GET request at /api/streams"}
+{"level":"info","message":"Received POST request at /api/streams/addSubjectToStream"}
+{"level":"info","message":"Received GET request at /api/streams"}
+{"level":"info","message":"App listening on port 3500"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"Received POST request at /api/streams/addSubjectToStream"}
+{"level":"info","message":"Received GET request at /api/streams"}
+{"level":"info","message":"Received POST request at /api/streams/addSubjectToStream"}
+{"level":"info","message":"Received POST request at /api/streams/addSubjectToStream"}
+{"level":"info","message":"Received GET request at /api/streams"}

@@ -35,7 +35,7 @@ const getSubjectById = async (req, res) => {
 
 // Update a subject by ID
 const updateSubjectById = async (req, res) => {
-    const allowedUpdates = ['fullName', 'age', 'stream', 'idNumber', 'gender', 'dateOfAdmission', 'dateOfLeaving'];
+    const allowedUpdates = ['name'];
     const updates = req.body;
     const isValidOperation = Object.keys(updates).every(update => allowedUpdates.includes(update));
 
