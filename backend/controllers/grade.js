@@ -16,7 +16,7 @@ const getGradeById = async (req, res) => {
 };
 
 const createGrade = async (req, res) => {
-    const { subject, student, semester, marks } = req.body;
+    const { subject, student, semester, marks, academicYear } = req.body;
 
     try {
         // Check if the student exists
@@ -37,6 +37,7 @@ const createGrade = async (req, res) => {
             student,
             semester,
             marks,
+            academicYear
         });
 
         const savedGrade = await newGrade.save();

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const transcriptSchema = new mongoose.Schema({
     student: { type: mongoose.Schema.Types.ObjectId, ref: 'Student', required: true },
-    academicYear: { type: Number, required: true }, //TODO
+    academicYear: { type: Number, required: true },
     grades: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Grade', required: true }],
     totalMarks: { type: Number, required: true },
     average: { type: Number, required: true },

@@ -12,6 +12,7 @@ const studentRoutes = require('./routes/student')
 const subjectRoutes = require('./routes/subject')
 const streamRoutes = require('./routes/stream')
 const gradeRoutes = require('./routes/grade')
+const transcriptRoutes = require('./routes/transcript')
 
 const app = express();
 const port = process.env.PORT || 3500;
@@ -40,6 +41,7 @@ app.use('/api/students', studentRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/streams', streamRoutes);
 app.use('/api/grades', gradeRoutes);
+app.use('/api/transcript', transcriptRoutes);
 
 // Connect to the database
 connectToDb((err) => {

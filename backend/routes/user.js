@@ -6,6 +6,6 @@ const { authenticate } = require('../middlewares/auth')
 router.post('/register', registerController);
 router.post('/login', authenticate, loginController);
 router.post('/logout', logoutController);
-router.post('/forgot-password', forgotPasswordController);
+router.post('/forgot-password', forgotPasswordController); //TODO
 
 module.exports = router;
