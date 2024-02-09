@@ -404,3 +404,11 @@
 {"level":"info","message":"Connected to the database"}
 {"level":"info","message":"App listening on port 6002"}
 {"level":"info","message":"Connected to the database"}
+{"level":"error","message":"Failed to connect to the database: Server selection timed out after 30000 ms","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":30,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":"atlas-1jcm4s-shard-0","stale":false,"type":"ReplicaSetNoPrimary"},"stack":"MongooseServerSelectionError: Server selection timed out after 30000 ms\n    at _handleConnectionErrors (C:\\Users\\atina\\OneDrive\\Desktop\\Project\\STMS\\implementation\\backend\\node_modules\\mongoose\\lib\\connection.js:829:11)\n    at NativeConnection.openUri (C:\\Users\\atina\\OneDrive\\Desktop\\Project\\STMS\\implementation\\backend\\node_modules\\mongoose\\lib\\connection.js:804:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Failed to connect to the database: Server selection timed out after 30000 ms","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":30,"maxElectionId":null,"maxSetVersion":null,"servers":{},"setName":"atlas-1jcm4s-shard-0","stale":false,"type":"ReplicaSetNoPrimary"},"stack":"MongooseServerSelectionError: Server selection timed out after 30000 ms\n    at _handleConnectionErrors (C:\\Users\\atina\\OneDrive\\Desktop\\Project\\STMS\\implementation\\backend\\node_modules\\mongoose\\lib\\connection.js:829:11)\n    at NativeConnection.openUri (C:\\Users\\atina\\OneDrive\\Desktop\\Project\\STMS\\implementation\\backend\\node_modules\\mongoose\\lib\\connection.js:804:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"info","message":"App listening on port 6002"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 6002"}
+{"level":"info","message":"Connected to the database"}
+{"level":"info","message":"App listening on port 6002"}
+{"level":"info","message":"Connected to the database"}
