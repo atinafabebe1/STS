@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
-import { generateRoute } from "./routes";
+import { routes } from "./routes";
 import {  useUserContext } from "./context/userContext"; 
 import LoginPage from "./pages/login/LoginPage";
-import appRoutes from "./routes/appRoutes";
+// import appRoutes from "./routes/appRoutes";
 
 function App() {
   const { user ,initialLoading} = useUserContext();
-  const routes = generateRoute(appRoutes,user?.role || "")
+  // const routes = generateRoute(appRoutes,user?.role || "Default")
   if(initialLoading){
     return <div>...loading</div>
   }

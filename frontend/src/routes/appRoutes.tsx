@@ -5,6 +5,9 @@ import SchoolOutlinedIcon from '@mui/icons-material/School';
 import EqualizerOutlinedIcon from '@mui/icons-material/Equalizer';
 import SubjectOutlinedIcon from '@mui/icons-material/Subject';
 import { Home, ReportRounded } from "@mui/icons-material";
+import AddNewStudent from "../pages/students/AddNewStudent";
+import StudentsLayout from "../pages/students/StudentsLayout";
+import ViewStudents from "../pages/students/ViewStudents";
 
 const appRoutes: RouteType[] = [
  
@@ -20,7 +23,7 @@ const appRoutes: RouteType[] = [
   },
   {
     path: "/students",
-    element: <HomePage />,
+    element: <StudentsLayout />,
     state: "students",
     visibleOn:["Secretary","Director"],
     sidebarProps: {
@@ -30,7 +33,7 @@ const appRoutes: RouteType[] = [
     child: [
       {
         path: "/students/view",
-        element: <HomePage />,
+        element: <ViewStudents />,
         state: "students.view",
         visibleOn:["Secretary","Director"],
         sidebarProps: {
@@ -39,7 +42,7 @@ const appRoutes: RouteType[] = [
       },
       {
         path: "/students/add",
-        element: <HomePage />,
+        element: <AddNewStudent />,
         state: "students.add",
         visibleOn:["Secretary"],
         sidebarProps: {
@@ -221,7 +224,7 @@ const appRoutes: RouteType[] = [
   },
    {
     path: "/reports",
-    element: <HomePage />,
+    element: <AddNewStudent />,
     state: "reports",
     visibleOn:["Director","Secretary"],
     sidebarProps: {
