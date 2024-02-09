@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/calculate/:fromYear/:toYear', transcriptController.calculateTranscriptStatistics);
 //TODO manual add
-//TODO previous student data /importing
+//TODO previous student data / bulk add
 
 module.exports = router;

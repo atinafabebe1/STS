@@ -5,7 +5,7 @@ let dbConnection;
 module.exports = {
     connectToDb: (cb) => {
         mongoose
-            .connect('mongodb+srv://Atnaf:Abebe123@cluster0.huwl12j.mongodb.net/?retryWrites=true&w=majority', {
+            .connect(process.env.MONGO_URI, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 socketTimeoutMS: 30000,

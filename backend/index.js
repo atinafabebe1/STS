@@ -17,7 +17,11 @@ const transcriptRoutes = require('./routes/transcript')
 const app = express();
 const port = process.env.PORT || 3500;
 
-app.use(cors());
+app.use(cors({
+    origin: true,
+    credentials: true,
+}));
+
 app.use(cookieParser())
 // Configure the Winston logger
 const logger = winston.createLogger({

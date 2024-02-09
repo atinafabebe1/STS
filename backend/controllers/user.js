@@ -43,8 +43,27 @@ const loginController = async (req, res) => {
 
 // Controller for user logout
 const logoutController = (req, res) => {
-    res.clearCookie('token');
-    res.status(200).json({ message: 'Logout successful' });
+    try {
+        res.clearCookie('token');
+        res.status(200).json({ message: 'Logout successful' });
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+
+const currentUser = (req, res) => {
+    try {
+        const token = req.cookies.token;
+        console.log(token)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const username = decoded.username;
+        const role = decoded.role;
+
+        res.status(200).json({ username, role });
+    } catch (error) {
+        res.status(401).json({ error: 'Unauthorized' });
+    }
 };
 
 // Controller for password reset
@@ -72,4 +91,5 @@ module.exports = {
     loginController,
     logoutController,
     forgotPasswordController,
+    currentUser
 };
