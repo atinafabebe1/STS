@@ -1,4 +1,4 @@
-## User Stories for Ethiopian High School Transcript System
+## User Stories for High School Transcript System
 
 **As a school director, I want to...**
 
