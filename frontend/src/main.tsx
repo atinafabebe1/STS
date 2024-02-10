@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import { store } from './redux/store';
 import { UserProvider } from './context/userContext';
+import { SchoolProvider } from './context/SchoolAdded';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,10 +13,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <UserProvider>
+      <SchoolProvider>
     <Provider store={store}>
       <CssBaseline />
       <App />
     </Provider>
+      </SchoolProvider>
     </UserProvider>
   </React.StrictMode>
 );

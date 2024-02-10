@@ -8,6 +8,13 @@ import { Home, ReportRounded } from "@mui/icons-material";
 import AddNewStudent from "../pages/students/AddNewStudent";
 import StudentsLayout from "../pages/students/StudentsLayout";
 import ViewStudents from "../pages/students/ViewStudents";
+import StreamPageLayout from "../pages/streams/StreamPageLayout";
+import AddNewStream from "../pages/streams/AddStream";
+import ViewStreams from "../pages/streams/ViewStreams";
+import SubjectsPageLayout from "../pages/subjects/SubjectsPageLayout";
+import AddNewSubject from "../pages/subjects/AddNewSubject";
+import ViewSubjects from "../pages/subjects/ViewSubjects";
+import ViewStreamSubjects from "../pages/streams/ViewStreamSubjects";
 
 const appRoutes: RouteType[] = [
  
@@ -71,7 +78,7 @@ const appRoutes: RouteType[] = [
   },
   {
     path: "/stream",
-    element: <HomePage />,
+    element: <StreamPageLayout />,
     state: "stream",
     visibleOn:["Director"],
     sidebarProps: {
@@ -81,7 +88,7 @@ const appRoutes: RouteType[] = [
     child: [
       {
         path: "/stream/view",
-        element: <HomePage />,
+        element: <ViewStreams />,
         state: "stream.view",
         visibleOn:["Director"],
         sidebarProps: {
@@ -89,8 +96,17 @@ const appRoutes: RouteType[] = [
         },
       },
       {
+        path: "/stream/subjects/:id",
+        element: <ViewStreamSubjects />,
+        state: "stream.subjects.id",
+        visibleOn:["Director"],
+        // sidebarProps: {
+        //   displayText: "View"
+        // },
+      },
+      {
         path: "/stream/add",
-        element: <HomePage />,
+        element: <AddNewStream />,
         state: "stream.add",
         visibleOn:["Director"],
         sidebarProps: {
@@ -176,7 +192,7 @@ const appRoutes: RouteType[] = [
   },
   {
     path: "/subjects",
-    element: <HomePage />,
+    element: <SubjectsPageLayout />,
     state: "subjects",
     visibleOn:["Director"],
     sidebarProps: {
@@ -186,7 +202,7 @@ const appRoutes: RouteType[] = [
     child: [
       {
         path: "/subjects/view",
-        element: <HomePage />,
+        element: <ViewSubjects />,
         state: "subjects.view",
         visibleOn:["Director"],
         sidebarProps: {
@@ -195,7 +211,7 @@ const appRoutes: RouteType[] = [
       },
       {
         path: "/subjects/add",
-        element: <HomePage />,
+        element: <AddNewSubject />,
         state: "subjects.add",
         visibleOn:["Director"],
         sidebarProps: {
