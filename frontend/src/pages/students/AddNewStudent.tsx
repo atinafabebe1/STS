@@ -25,7 +25,7 @@ const AddNewStudent = () => {
     { name: 'stream', label: 'Stream Type', type: 'dropdown', options: ['General', 'Natural-Science', 'Social-Science'] },
     { name: 'section', label: 'Section', type: 'text' },
     { name: 'idNumber', label: 'ID Number', type: 'text' },
-    { name: 'gender', label: 'Gender', type: 'text' },
+    { name: 'gender', label: 'Gender', type: 'dropdown', options: ['M', 'F'] },
     { name: 'dateOfAdmission', label: 'Date of Admission', type: 'date' },
     { name: 'dateOfLeaving', label: 'Date of Leaving', type: 'date' },
   ];

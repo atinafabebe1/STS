@@ -16,6 +16,7 @@ const usePostHook = (url: string) => {
 
 
   const handleSubmit = async (formData: FormData) => {
+    console.log("formData")
     console.log(formData)
     setIsLoading(true);
     try {
@@ -24,7 +25,6 @@ const usePostHook = (url: string) => {
       });
       
       handleRefresh()
-      // Handle response if needed
       console.log(successMessage)
       console.log('Data submitted successfully', response);
     } catch (error) {
