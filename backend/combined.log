@@ -685,3 +685,6 @@
 {"level":"info","message":"Connected to the database"}
 {"kind":"ObjectId","message":"Cast to ObjectId failed for value \"undefined\" (type string) at path \"student\" for model \"Transcript\"","name":"CastError","path":"student","reason":{},"stringValue":"\"undefined\"","value":"undefined","valueType":"string"}
 {"kind":"ObjectId","message":"Cast to ObjectId failed for value \"undefined\" (type string) at path \"student\" for model \"Transcript\"","name":"CastError","path":"student","reason":{},"stringValue":"\"undefined\"","value":"undefined","valueType":"string"}
+{"level":"info","message":"App listening on port 6002"}
+{"level":"info","message":"Connected to the database"}
+{"kind":"ObjectId","message":"Cast to ObjectId failed for value \"undefined\" (type string) at path \"student\" for model \"Transcript\"","name":"CastError","path":"student","reason":{},"stringValue":"\"undefined\"","value":"undefined","valueType":"string"}

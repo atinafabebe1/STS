@@ -4,20 +4,19 @@ import colorConfigs from '../../configs/colorConfigs';
 
 interface Grade {
   _id: string;
-  subject: {name:string};
+  subject: { name: string };
   semester: string;
   marks: number;
   academicYear: number;
   __v: number;
 }
 
-
 interface Student {
   _id: string;
   fullName: string;
   idNumber: string;
   gender: string;
-  stream: {name:string};
+  stream: { name: string };
   section: string;
   dateOfAdmission: string;
   dateOfLeaving: string;
@@ -44,7 +43,7 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
         backgroundColor: colorConfigs.paper,
         color: colorConfigs.text,
         borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
       }}
     >
       <div
@@ -52,7 +51,7 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
           backgroundColor: colorConfigs.primary,
           color: colorConfigs.secondaryText,
           padding: '16px',
-          borderRadius: '8px 8px 0 0',
+          borderRadius: '8px 8px 0 0'
         }}
       >
         <Typography variant="h5" gutterBottom>
@@ -67,11 +66,7 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
               <strong>Student Name:</strong> {transcript.student.fullName}
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography>
-              <strong>Student ID:</strong> {transcript.student._id}
-            </Typography>
-          </Grid>
+
           <Grid item xs={12} md={6}>
             <Typography>
               <strong>ID Number:</strong> {transcript.student.idNumber}
@@ -94,45 +89,49 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
           </Grid>
 
           {transcript.grades?.length > 0 ? (
-  <Grid item xs={12} style={{ marginTop: '16px' }}>
-    <Typography variant="h6" gutterBottom>
-      Grades
-    </Typography>
-    {/* Group grades by semester */}
-    {Array.from(new Set(transcript.grades.map(grade => grade.semester))).map(semester => (
-      <div key={semester}>
-        <Typography variant="subtitle1" gutterBottom>
-          Semester: {semester}
-        </Typography>
-        <TableContainer component={Paper} style={{ marginBottom: '16px' }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Subject</TableCell>
-                <TableCell>Semester</TableCell>
-                <TableCell align="right">Marks</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {transcript.grades.filter(grade => grade.semester === semester).map(grade => (
-                <TableRow key={grade._id}>
-                  <TableCell>{grade.subject.name}</TableCell>
-                  <TableCell>{grade.semester}</TableCell>
-                  <TableCell align="right">{grade.marks}</TableCell>
-                </TableRow>
+            <Grid container spacing={2} style={{padding:"16px"}}>
+              <Grid item xs={12}>
+                <Typography variant="h6" gutterBottom>
+                  Grades
+                </Typography>
+              </Grid>
+              {Array.from(new Set(transcript.grades.map((grade) => grade.semester))).map((semester) => (
+                <Grid item xs={12} md={6} lg={6} key={semester}>
+                  <div>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Semester: {semester}
+                    </Typography>
+                    <TableContainer component={Paper} style={{ marginBottom: '16px' }}>
+                      <Table size='small'>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Subject</TableCell>
+                            <TableCell>Semester</TableCell>
+                            <TableCell align="right">Marks</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {transcript.grades
+                            .filter((grade) => grade.semester === semester)
+                            .map((grade) => (
+                              <TableRow key={grade._id}>
+                                <TableCell>{grade.subject.name}</TableCell>
+                                <TableCell>{grade.semester}</TableCell>
+                                <TableCell align="right">{grade.marks}</TableCell>
+                              </TableRow>
+                            ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
+                </Grid>
               ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    ))}
-  </Grid>
-) : (
-  <Grid item xs={12}>
-    <Typography>No grades available for this academic year.</Typography>
-  </Grid>
-)}
-
+            </Grid>
+          ) : (
+            <Grid item xs={12}>
+              <Typography>No grades available for this academic year.</Typography>
+            </Grid>
+          )}
         </Grid>
       </CardContent>
     </Card>
