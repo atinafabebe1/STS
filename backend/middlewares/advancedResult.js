@@ -1,6 +1,6 @@
 const asyncHandler = require('./async');
 
-const advancedResults = (model, populate) =>
+const advancedResults = (model, populate, nestedPopulate) =>
   asyncHandler(async (req, res, next) => {
     let query;
 
@@ -42,9 +42,20 @@ const advancedResults = (model, populate) =>
 
     query = query.skip(startIndex).limit(limit);
 
-    if (populate) {
+
+    if (populate && nestedPopulate) {
+      query = query.populate(populate);
+
+      query = query.populate({
+        path: populate,
+        populate: { path: nestedPopulate }
+      });
+    } else if (populate) {
       query = query.populate(populate);
     }
+
+
+
 
     let results;
 

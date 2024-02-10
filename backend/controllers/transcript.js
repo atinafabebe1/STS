@@ -4,8 +4,8 @@ const Student = require('../models/student');
 
 async function calculateTranscriptStatistics(req, res) {
     try {
-        const { fromYear, toYear } = req.params;
-        const transcriptData = await generateTranscriptData(fromYear, toYear);
+        const { year } = req.params;
+        const transcriptData = await generateTranscriptData(year);
         await saveTranscriptData(transcriptData);
 
         res.status(200).json({ message: 'Transcript statistics calculated successfully.' });
@@ -15,33 +15,31 @@ async function calculateTranscriptStatistics(req, res) {
     }
 }
 
-async function generateTranscriptData(fromYear, toYear) {
+async function generateTranscriptData(year) {
     const transcriptData = [];
 
-    for (let year = fromYear; year <= toYear; year++) {
-        const students = await fetchStudentsForYear(year);
+    const students = await fetchStudentsForYear(year);
 
-        for (const student of students) {
-            const grades = await fetchGradesForStudentAndYear(student._id, year);
+    for (const student of students) {
+        const grades = await fetchGradesForStudentAndYear(student._id, year);
 
-            if (grades.length === 0) {
-                console.warn(`No grades found for student ${student.fullName}`);
-                continue;
-            }
-
-            const totalMarks = grades.reduce((total, grade) => total + grade.marks, 0); // For each semister
-            const average = totalMarks / grades.length;
-            const rank = await calculateRank(student.stream, student.section, average, student, year); // pass studentId instead of student
-
-            transcriptData.push({
-                student: student._id,
-                academicYear: year,
-                totalMarks,
-                grades,
-                average,
-                rank
-            });
+        if (grades.length === 0) {
+            console.warn(`No grades found for student ${student.fullName}`);
+            continue;
         }
+
+        const totalMarks = grades.reduce((total, grade) => total + grade.marks, 0); // For each semister
+        const average = totalMarks / grades.length;
+        const rank = await calculateRank(student.stream, student.section, average, student, year); // pass studentId instead of student
+
+        transcriptData.push({
+            student: student._id,
+            academicYear: year,
+            totalMarks,
+            grades,
+            average,
+            rank
+        });
     }
 
     return transcriptData;

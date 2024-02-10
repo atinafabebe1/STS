@@ -18,6 +18,7 @@ import ViewStreamSubjects from "../pages/streams/ViewStreamSubjects";
 import AddSubjectToStream from "../pages/streams/AddSubjectToStream";
 import GradePageLayout from "../pages/grades/GradePageLayout";
 import TranscriptsPageLayout from "../pages/transcripts/TranscriptPageLayout";
+import ViewTranscripts from "../pages/transcripts/ViewTranscripts";
 
 const appRoutes: RouteType[] = [
  
@@ -174,13 +175,19 @@ const appRoutes: RouteType[] = [
     },
     child: [
       {
-        path: "/transcript/view/:studentId",
-        element: <HomePage />,
+        path: "/transcript/view",
+        element: <ViewTranscripts />,
         state: "transcript.view",
         visibleOn:["Secretary","Director"],
         sidebarProps: {
           displayText: "View"
         }
+      },
+      {
+        path: "/transcript/view/:studentId",
+        element: <ViewTranscripts />,
+        state: "transcript.view",
+        visibleOn:["Secretary","Director"],
       },
     ]
   },

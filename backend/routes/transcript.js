@@ -3,7 +3,7 @@ const transcriptController = require('../controllers/transcript');
 
 const router = express.Router();
 
-router.get('/calculate/:fromYear/:toYear', transcriptController.calculateTranscriptStatistics);
+router.get('/calculate/:year', transcriptController.calculateTranscriptStatistics);
 //TODO manual add
 //TODO previous student data / bulk add
 

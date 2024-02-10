@@ -1,6 +1,7 @@
 const Grade = require('../models/grade');
 const Student = require('../models/student')
 const Stream = require('../models/stream')
+const Transcript = require('../models/transcript')
 
 const getAllGrades = async (req, res) => {
     res.status(200).json(res.advancedResults);
@@ -16,7 +17,7 @@ const getGradeById = async (req, res) => {
 };
 
 const createGrade = async (req, res) => {
-    const { subject, student, semester, marks, academicYear } = req.body;
+    const { subjectsAndMarks, student, semester, academicYear } = req.body;
 
     try {
         // Check if the student exists
@@ -26,22 +27,41 @@ const createGrade = async (req, res) => {
         }
 
         const stream = await Stream.findById(existingStudent.stream).populate('subjects');
-        const isSubjectInStream = stream.subjects.some(subjectItem => subjectItem._id.toString() === subject);
 
-        if (!isSubjectInStream) {
-            return res.status(400).json({ error: "This subject does not exist in the student's stream" });
+        // Check if all subjects exist in the student's stream
+        const invalidSubjects = subjectsAndMarks.filter(({ subject }) => !stream.subjects.some(subjectItem => subjectItem._id.toString() === subject));
+
+        if (invalidSubjects.length > 0) {
+            return res.status(400).json({ error: "Some subjects do not exist in the student's stream" });
         }
 
-        const newGrade = new Grade({
-            subject,
+        const savedGrades = [];
+
+        for (const { subject, marks } of subjectsAndMarks) {
+            const newGrade = new Grade({
+                subject,
+                student,
+                semester,
+                marks,
+                academicYear
+            });
+
+            const savedGrade = await newGrade.save();
+            savedGrades.push(savedGrade);
+        }
+
+        const totalMarks = savedGrades.reduce((sum, grade) => sum + grade.marks, 0);
+        const average = totalMarks / savedGrades.length;
+
+        await Transcript.create({
             student,
-            semester,
-            marks,
-            academicYear
+            academicYear,
+            grades: savedGrades.map(grade => grade._id),
+            totalMarks,
+            average
         });
 
-        const savedGrade = await newGrade.save();
-        res.status(201).json(savedGrade);
+        res.status(201).json(savedGrades);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
