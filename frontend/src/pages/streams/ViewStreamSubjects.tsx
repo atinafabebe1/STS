@@ -13,21 +13,18 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button
 } from '@mui/material';
 import {  useParams } from 'react-router-dom';
 import {  Delete } from '@mui/icons-material';
 import useFetch from '../../hooks/useFetchHook';
 import colorConfigs from '../../configs/colorConfigs';
 import { BASE_URL } from '../../api/api';
-import { useNavigate } from 'react-router-dom';
 
 const ViewStreamSubjects: React.FC = () => {
   const { streamId} = useParams();
 
   const { data, loading, error } = useFetch({ url: `${BASE_URL}/streams?_id=${streamId}` });
 
-  const navigate = useNavigate();
 
   if (loading) {
     return <CircularProgress />;
@@ -41,21 +38,14 @@ const ViewStreamSubjects: React.FC = () => {
     );
   }
 
-  const handleEditClick = (streamId: string) => {};
 
-  const handleDeleteClick = (streamId: string) => {};
-  const handleViewSubject = (streamId: string) => {
-    navigate(`/stream/subjects/${streamId}`);
+  const handleDeleteClick = (streamId: string) => {
+    console.log(streamId)
   };
-
+  
   const tableCellStyle = {
     color: colorConfigs.text,
     backgroundColor: colorConfigs.background
-  };
-
-  const linkStyle = {
-    marginLeft: '8px',
-    color: colorConfigs.primary
   };
 
   const iconButtonStyle = {

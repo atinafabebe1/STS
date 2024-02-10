@@ -37,10 +37,12 @@ const ViewStudents: React.FC = () => {
 
   const handleEditClick = (studentId: string) => {
     // Handle edit click logic
+    console.log(studentId)
   };
 
   const handleDeleteClick = (studentId: string) => {
     // Handle delete click logic
+    console.log(studentId)
   };
 
   const tableCellStyle = {

@@ -55,7 +55,7 @@ const ViewTranscripts = () => {
   
   return (
      <Container component="main" maxWidth="md">
-       {data && data.map((transcript)=>{
+       {data && data.map((transcript:any)=>{
         return <div style={{marginTop:"20px",marginBottom:"20px"}}>
             <TranscriptCard transcript={transcript}/>
         </div>

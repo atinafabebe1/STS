@@ -13,7 +13,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Button,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Edit, Delete } from '@mui/icons-material';
@@ -37,9 +36,11 @@ const ViewStreams: React.FC = () => {
   }
 
   const handleEditClick = (streamId: string) => {
+    console.log(streamId)
   };
-
+  
   const handleDeleteClick = (streamId: string) => {
+    console.log(streamId)
   };
   
 
