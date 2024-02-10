@@ -12,7 +12,7 @@ const advancedResults = require('../middlewares/advancedResult')
 const StreamModel = require('../models/stream')
 
 router.post('/', createStream);
-router.get('/', advancedResults(StreamModel, 'subjects'), getAllStreams);
+router.get('/', advancedResults(StreamModel, ['subjects']), getAllStreams);
 router.get('/:id', getStreamById);
 router.patch('/:id', updateStreamById);
 router.delete('/:id', deleteStreamById);

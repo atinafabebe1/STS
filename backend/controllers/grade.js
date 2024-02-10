@@ -15,52 +15,66 @@ const getGradeById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 const createGrade = async (req, res) => {
-    const { semester, academicYear, student, ...subjectsAndMarks } = req.body;
-    console.log(subjectsAndMarks)
+    const { student, semester, academicYear, ...subjectsAndMarks } = req.body;
+    console.log(subjectsAndMarks);
 
     try {
-        // Check if the student exists
         const existingStudent = await Student.findById(student);
         if (!existingStudent) {
             return res.status(400).json({ error: "This student is not registered" });
         }
 
         const stream = await Stream.findById(existingStudent.stream).populate('subjects');
+        console.log(subjectsAndMarks);
 
-        // Check if all subjects exist in the student's stream
-        const invalidSubjects = Object.keys(subjectsAndMarks).filter(subjectId => !stream.subjects.some(subjectItem => subjectItem._id.toString() === subjectId));
+        const invalidSubjects = Object.entries(subjectsAndMarks).filter(([subject]) => !stream.subjects.some(subjectItem => subjectItem._id.toString() === subject));
 
         if (invalidSubjects.length > 0) {
             return res.status(400).json({ error: "Some subjects do not exist in the student's stream" });
         }
 
-        const savedGrades = [];
-
-        for (const subjectId in subjectsAndMarks) {
-            const marks = subjectsAndMarks[subjectId];
+        const savedGrades = await Promise.all(Object.entries(subjectsAndMarks).map(async ([subject, marks]) => {
             const newGrade = new Grade({
-                subject: subjectId,
+                subject,
                 student,
                 semester,
                 marks,
                 academicYear
             });
 
-            const savedGrade = await newGrade.save();
-            savedGrades.push(savedGrade);
-        }
+            return await newGrade.save();
+        }));
+
+        const transcript = await Transcript.findOne({ student, academicYear }).populate('grades');
+
 
         const totalMarks = savedGrades.reduce((sum, grade) => sum + grade.marks, 0);
         const average = totalMarks / savedGrades.length;
 
-        await Transcript.create({
-            student,
-            academicYear,
-            grades: savedGrades.map(grade => grade._id),
-            totalMarks,
-            average
-        });
+        if (transcript) {
+            const totalGrades = [...savedGrades, ...transcript.grades];
+
+            const newn = await Transcript.findByIdAndUpdate(transcript._id, {
+                student,
+                academicYear,
+                grades: totalGrades.map(grade => grade._id),
+                totalMarks,
+                average
+            });
+
+            console.log(newn)
+
+        } else {
+            await Transcript.create({
+                student,
+                academicYear,
+                grades: savedGrades.map(grade => grade._id),
+                totalMarks,
+                average
+            });
+        }
 
         res.status(201).json(savedGrades);
     } catch (error) {

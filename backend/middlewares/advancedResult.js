@@ -42,19 +42,23 @@ const advancedResults = (model, populate, nestedPopulate) =>
 
     query = query.skip(startIndex).limit(limit);
 
-
     if (populate && nestedPopulate) {
-      query = query.populate(populate);
 
-      query = query.populate({
-        path: populate,
-        populate: { path: nestedPopulate }
+      console.log(populate, nestedPopulate)
+
+      populate.forEach((populator, index) => {
+        const nestedPopulator = nestedPopulate[index];
+        console.log(nestedPopulator)
+        query = nestedPopulator
+          ? query.populate({
+            path: populator,
+            populate: { path: nestedPopulator },
+          })
+          : query.populate(populator);
       });
     } else if (populate) {
       query = query.populate(populate);
     }
-
-
 
 
     let results;

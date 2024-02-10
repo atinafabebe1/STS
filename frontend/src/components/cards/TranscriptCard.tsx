@@ -1,25 +1,36 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { Card, CardContent, Typography, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import colorConfigs from '../../configs/colorConfigs';
 
 interface Grade {
-  subject: string;
+  _id: string;
+  subject: {name:string};
+  semester: string;
   marks: number;
+  academicYear: number;
+  __v: number;
 }
 
-interface Semester {
-  grades: Grade[];
+
+interface Student {
+  _id: string;
+  fullName: string;
+  idNumber: string;
+  gender: string;
+  stream: {name:string};
+  section: string;
+  dateOfAdmission: string;
+  dateOfLeaving: string;
+  __v: number;
 }
 
 interface Transcript {
+  _id: string;
+  student: Student;
   academicYear: number;
-  student: string;
+  grades: Grade[];
   totalMarks: number;
   average: number;
-  rank?: number;
-  conduct?: string;
-  grades: Semester[];
 }
 
 interface TranscriptCardProps {
@@ -28,8 +39,22 @@ interface TranscriptCardProps {
 
 const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
   return (
-    <Card style={{ backgroundColor: colorConfigs.paper, color: colorConfigs.text, borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-      <div style={{ backgroundColor: colorConfigs.primary, color: colorConfigs.secondaryText, padding: '16px', borderRadius: '8px 8px 0 0' }}>
+    <Card
+      style={{
+        backgroundColor: colorConfigs.paper,
+        color: colorConfigs.text,
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: colorConfigs.primary,
+          color: colorConfigs.secondaryText,
+          padding: '16px',
+          borderRadius: '8px 8px 0 0',
+        }}
+      >
         <Typography variant="h5" gutterBottom>
           Academic Year: {transcript.academicYear}
         </Typography>
@@ -39,7 +64,27 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Typography>
-              <strong>Student:</strong> {transcript.student}
+              <strong>Student Name:</strong> {transcript.student.fullName}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography>
+              <strong>Student ID:</strong> {transcript.student._id}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography>
+              <strong>ID Number:</strong> {transcript.student.idNumber}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography>
+              <strong>Gender:</strong> {transcript.student.gender}
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Typography>
+              <strong>Stream:</strong> {transcript.student.stream?.name}
             </Typography>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -47,53 +92,47 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
               <strong>Total Marks:</strong> {transcript.totalMarks}
             </Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography>
-              <strong>Average:</strong> {transcript.average}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Typography>
-              <strong>Rank:</strong> {transcript.rank || 'Not available'}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography>
-              <strong>Conduct:</strong> {transcript.conduct || 'Not available'}
-            </Typography>
-          </Grid>
 
-          {transcript.grades && transcript.grades.length > 0 ? (
-            <Grid item xs={12} style={{ marginTop: '16px' }}>
-              <Typography variant="h6" gutterBottom>
-                Grades
-              </Typography>
-              {transcript.grades.map((semester, index) => (
-                <TableContainer component={Paper} key={index} style={{ marginBottom: '16px' }}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Subject</TableCell>
-                        <TableCell align="right">Marks</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {semester.grades.map((grade, gradeIndex) => (
-                        <TableRow key={gradeIndex}>
-                          <TableCell>{grade.subject}</TableCell>
-                          <TableCell align="right">{grade.marks}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
+          {transcript.grades?.length > 0 ? (
+  <Grid item xs={12} style={{ marginTop: '16px' }}>
+    <Typography variant="h6" gutterBottom>
+      Grades
+    </Typography>
+    {/* Group grades by semester */}
+    {Array.from(new Set(transcript.grades.map(grade => grade.semester))).map(semester => (
+      <div key={semester}>
+        <Typography variant="subtitle1" gutterBottom>
+          Semester: {semester}
+        </Typography>
+        <TableContainer component={Paper} style={{ marginBottom: '16px' }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Subject</TableCell>
+                <TableCell>Semester</TableCell>
+                <TableCell align="right">Marks</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {transcript.grades.filter(grade => grade.semester === semester).map(grade => (
+                <TableRow key={grade._id}>
+                  <TableCell>{grade.subject.name}</TableCell>
+                  <TableCell>{grade.semester}</TableCell>
+                  <TableCell align="right">{grade.marks}</TableCell>
+                </TableRow>
               ))}
-            </Grid>
-          ) : (
-            <Grid item xs={12}>
-              <Typography>No grades available for this academic year.</Typography>
-            </Grid>
-          )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    ))}
+  </Grid>
+) : (
+  <Grid item xs={12}>
+    <Typography>No grades available for this academic year.</Typography>
+  </Grid>
+)}
+
         </Grid>
       </CardContent>
     </Card>
