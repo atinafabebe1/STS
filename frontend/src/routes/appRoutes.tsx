@@ -15,6 +15,7 @@ import SubjectsPageLayout from "../pages/subjects/SubjectsPageLayout";
 import AddNewSubject from "../pages/subjects/AddNewSubject";
 import ViewSubjects from "../pages/subjects/ViewSubjects";
 import ViewStreamSubjects from "../pages/streams/ViewStreamSubjects";
+import AddSubjectToStream from "../pages/streams/AddSubjectToStream";
 
 const appRoutes: RouteType[] = [
  
@@ -96,13 +97,17 @@ const appRoutes: RouteType[] = [
         },
       },
       {
-        path: "/stream/subjects/:id",
+        path: "/stream/subjects/:streamId",
         element: <ViewStreamSubjects />,
-        state: "stream.subjects.id",
+        state: "stream.streamId",
         visibleOn:["Director"],
-        // sidebarProps: {
-        //   displayText: "View"
-        // },
+        
+      },
+      {
+        path: "/stream/subjects/add/:streamId",
+        element: <AddSubjectToStream />,
+        state: "stream.add.id",
+        visibleOn:["Director"],
       },
       {
         path: "/stream/add",
@@ -118,27 +123,12 @@ const appRoutes: RouteType[] = [
         element: <HomePage />,
         state: "stream.edit",
         visibleOn:["Director"],
-        sidebarProps: {
-          displayText: "Edit"
-        }
       },
       {
         path: "/stream/remove",
         element: <HomePage />,
         state: "stream.remove",
         visibleOn:["Director"],
-        sidebarProps: {
-          displayText: "Remove"
-        }
-      },
-      {
-        path: "/stream/add-subject",
-        element: <HomePage />,
-        state: "stream.remove",
-        visibleOn:["Director"],
-        sidebarProps: {
-          displayText: "Add Subject"
-        }
       },
     ]
   },
@@ -219,22 +209,16 @@ const appRoutes: RouteType[] = [
         }
       },
       {
-        path: "/subjects/edit",
+        path: "/subjects/edit/:subjectId",
         element: <HomePage />,
         state: "subjects.edit",
         visibleOn:["Director"],
-        sidebarProps: {
-          displayText: "Edit"
-        }
       },
       {
-        path: "/subjects/remove",
+        path: "/subjects/remove/:subjectId",
         element: <HomePage />,
         state: "subjects.remove",
         visibleOn:["Director"],
-        sidebarProps: {
-          displayText: "Remove"
-        }
       },
     ]
   },

@@ -15,17 +15,17 @@ import {
   TableBody,
   Button
 } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
-import { Edit, Delete } from '@mui/icons-material';
+import {  useParams } from 'react-router-dom';
+import {  Delete } from '@mui/icons-material';
 import useFetch from '../../hooks/useFetchHook';
 import colorConfigs from '../../configs/colorConfigs';
 import { BASE_URL } from '../../api/api';
 import { useNavigate } from 'react-router-dom';
 
 const ViewStreamSubjects: React.FC = () => {
-  const { id } = useParams();
+  const { streamId} = useParams();
 
-  const { data, loading, error } = useFetch({ url: `${BASE_URL}/streams?_id=${id}` });
+  const { data, loading, error } = useFetch({ url: `${BASE_URL}/streams?_id=${streamId}` });
 
   const navigate = useNavigate();
 

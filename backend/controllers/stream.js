@@ -76,7 +76,7 @@ const deleteStreamById = async (req, res) => {
 
 const addSubjectToStream = async (req, res) => {
     try {
-        const { streamId, subjectIds } = req.body;
+        const { streamId, name } = req.body;
 
         // Find stream by ID
         const stream = await Stream.findById(streamId);
@@ -84,7 +84,12 @@ const addSubjectToStream = async (req, res) => {
             return res.status(404).json({ message: 'Stream not found' });
         }
 
-        const subjects = await Subject.find({ _id: { $in: subjectIds } });
+        const subjects = await Subject.find({ name: { $in: name } });
+
+        console.log(subjects)
+        if (subjects.length === 0) {
+            return res.status(404).json({ message: 'Subjects not found' });
+        }
 
         stream.subjects?.push(...subjects.map(subject => subject._id));
 

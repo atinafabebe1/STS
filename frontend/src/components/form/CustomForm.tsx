@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import TextField from '@mui/material/TextField';
 import Button, { ButtonProps } from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Alert, CircularProgress } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 interface Field {
   name: string;
@@ -32,18 +33,33 @@ interface DynamicMaterialUIFormProps {
 const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit, fields, buttons,isLoading,error }) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
 
+  const {streamId} = useParams();
+
   const handleChange = (e: ChangeEvent<{ name?: string; value: unknown }> | SelectChangeEvent<string>, name: string) => {
     const value = typeof e === 'string' ? e : e.target.value;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value as string }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    console.log("streamId")
+    console.log("streamId")
+    console.log("streamId")
+    console.log("streamId")
+    console.log("streamId")
+    console.log("streamId")
+    console.log("streamId")
     e.preventDefault();
-    onSubmit(formData);
+    console.log(streamId)
+    if(streamId){
+       const formDataWithStreamid = { ...formData, streamId };
+       onSubmit(formDataWithStreamid)
+    }else{
+      onSubmit(formData);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} >
+    <form >
       <Box p={3} boxShadow={2} borderRadius={4}>
         <Grid container spacing={3} justifyContent="center">
           {fields.map(({ name, label, type, options }) => (
@@ -89,7 +105,7 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
               variant={variant}
               color={color}
               type={type}
-              onClick={() => onClick && onClick(formData)}
+              onClick={(e) => onClick && handleSubmit(e)}
               style={{ margin: '0 10px' }}
             >
               {isLoading ? <CircularProgress size={24} color="inherit" /> : label}

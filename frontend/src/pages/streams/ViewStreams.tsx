@@ -43,10 +43,7 @@ const ViewStreams: React.FC = () => {
 
   const handleDeleteClick = (streamId: string) => {
   };
-  const handleViewSubject = (streamId: string) => {
-    navigate(`/stream/subjects/${streamId}`)
-  };
-
+  
 
 
   const tableCellStyle = {
@@ -86,7 +83,7 @@ const ViewStreams: React.FC = () => {
                     <Link  to={`/stream/subjects/${stream._id}`} style={linkStyle}>
                       View Subjects
                     </Link>
-                    <Link to={`/stream/subjects/${stream._id}`} style={linkStyle}>
+                    <Link to={`/stream/subjects/add/${stream._id}`} style={linkStyle}>
                       Add Subject
                     </Link>
                   </TableCell>
