@@ -18,7 +18,7 @@ const app = express();
 const port = process.env.PORT || 3500;
 
 app.use(cors({
-    origin: true,
+    origin: ['http://localhost:5173', 'https://sts-hazel.vercel.app/'],
     credentials: true,
 }));
 
