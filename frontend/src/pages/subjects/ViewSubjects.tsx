@@ -7,7 +7,6 @@ import {
   Typography,
   IconButton,
   Tooltip,
-  Link,
   Table,
   TableContainer,
   TableHead,
@@ -36,9 +35,11 @@ const ViewSubjects: React.FC = () => {
   }
 
   const handleEditClick = (subjectId: string) => {
+    console.log(subjectId)
   };
-
+  
   const handleDeleteClick = (subjectId: string) => {
+    console.log(subjectId)
   };
 
 
@@ -48,10 +49,6 @@ const ViewSubjects: React.FC = () => {
     backgroundColor: colorConfigs.background,
   };
 
-  const linkStyle = {
-    marginLeft: '8px',
-    color: colorConfigs.primary,
-  };
 
   const iconButtonStyle = {
     color: colorConfigs.primary,
