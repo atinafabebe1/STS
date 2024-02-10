@@ -22,7 +22,7 @@ const AddNewStream = () => {
   const { isLoading, error, handleSubmit } = usePostHook(`${BASE_URL}/streams`);
 
   const formFields:Field[] = [
-    { name: 'name', label: 'Stream Type', type: 'dropdown', options: ['General', 'Natural-Science', 'Social-Science'] },
+    { name: 'name', label: 'Stream Name', type: 'text', },
   ];
 
   const formButtons:ButtonConfig[] = [

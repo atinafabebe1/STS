@@ -20,11 +20,9 @@ import { Edit, Delete } from '@mui/icons-material';
 import useFetch from '../../hooks/useFetchHook';
 import colorConfigs from '../../configs/colorConfigs';
 import { BASE_URL } from '../../api/api';
-import { useNavigate } from 'react-router-dom';
 
 const ViewStreams: React.FC = () => {
   const { data, loading, error } = useFetch({ url: `${BASE_URL}/streams` });
-  const navigate = useNavigate()
 
   if (loading) {
     return <CircularProgress />;

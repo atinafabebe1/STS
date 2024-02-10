@@ -4,7 +4,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/School';
 import EqualizerOutlinedIcon from '@mui/icons-material/Equalizer';
 import SubjectOutlinedIcon from '@mui/icons-material/Subject';
-import { Home, ReportRounded } from "@mui/icons-material";
+import { Home, ReportRounded, Summarize } from "@mui/icons-material";
 import AddNewStudent from "../pages/students/AddNewStudent";
 import StudentsLayout from "../pages/students/StudentsLayout";
 import ViewStudents from "../pages/students/ViewStudents";
@@ -16,6 +16,8 @@ import AddNewSubject from "../pages/subjects/AddNewSubject";
 import ViewSubjects from "../pages/subjects/ViewSubjects";
 import ViewStreamSubjects from "../pages/streams/ViewStreamSubjects";
 import AddSubjectToStream from "../pages/streams/AddSubjectToStream";
+import GradePageLayout from "../pages/grades/GradePageLayout";
+import TranscriptsPageLayout from "../pages/transcripts/TranscriptPageLayout";
 
 const appRoutes: RouteType[] = [
  
@@ -58,22 +60,16 @@ const appRoutes: RouteType[] = [
         }
       },
       {
-        path: "/students/edit",
+        path: "/students/edit/:studentId",
         element: <HomePage />,
         state: "students.edit",
         visibleOn:["Secretary"],
-        sidebarProps: {
-          displayText: "Edit"
-        }
       },
       {
-        path: "/students/remove",
+        path: "/students/remove/:studentId",
         element: <HomePage />,
         state: "students.remove",
         visibleOn:["Secretary","Director"],
-        sidebarProps: {
-          displayText: "Remove"
-        }
       },
     ]
   },
@@ -134,7 +130,7 @@ const appRoutes: RouteType[] = [
   },
   {
     path: "/grades",
-    element: <HomePage />,
+    element: <GradePageLayout />,
     state: "grades",
     visibleOn:["Secretary","Director"],
     sidebarProps: {
@@ -142,15 +138,6 @@ const appRoutes: RouteType[] = [
       icon: <EqualizerOutlinedIcon />
     },
     child: [
-      {
-        path: "/grades/view",
-        element: <HomePage />,
-        state: "grades.view",
-        visibleOn:["Secretary","Director"],
-        sidebarProps: {
-          displayText: "View"
-        },
-      },
       {
         path: "/grades/add",
         element: <HomePage />,
@@ -161,21 +148,38 @@ const appRoutes: RouteType[] = [
         }
       },
       {
-        path: "/grades/edit",
+        path: "/grades/edit/:studentId/:gradeId",
         element: <HomePage />,
         state: "grades.edit",
         visibleOn:["Secretary"],
-        sidebarProps: {
-          displayText: "Edit"
-        }
+       
       },
       {
-        path: "/grades/remove",
+        path: "/grades/remove/:studentId/:gradeId",
         element: <HomePage />,
         state: "grades.remove",
         visibleOn:["Secretary"],
+        
+      },
+    ]
+  },
+  {
+    path: "/transcript",
+    element: <TranscriptsPageLayout />,
+    state: "transcript",
+    visibleOn:["Secretary","Director"],
+    sidebarProps: {
+      displayText: "Transcripts",
+      icon: <Summarize />
+    },
+    child: [
+      {
+        path: "/transcript/view/:studentId",
+        element: <HomePage />,
+        state: "transcript.view",
+        visibleOn:["Secretary","Director"],
         sidebarProps: {
-          displayText: "Remove"
+          displayText: "View"
         }
       },
     ]

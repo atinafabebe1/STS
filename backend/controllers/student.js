@@ -1,8 +1,14 @@
 const Student = require('../models/student');
-
+const Stream = require('../models/stream')
 // Create a new student
 const createStudent = async (req, res) => {
     try {
+        console.log(req.body)
+        const stream = await Stream.findOne({ name: req.body.stream })
+        if (!stream) {
+            return res.status(400).json({ message: 'Stream not found' })
+        }
+        req.body.stream = stream._id
         const student = new Student(req.body);
         await student.save();
         res.json({ student });

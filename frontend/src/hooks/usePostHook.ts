@@ -12,6 +12,7 @@ const usePostHook = (url: string) => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<AxiosError | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
 
   const handleSubmit = async (formData: FormData) => {
@@ -19,9 +20,11 @@ const usePostHook = (url: string) => {
     setIsLoading(true);
     try {
       const response = await axios.post(url, formData);
+      setSuccessMessage('Succesfully Submited')
       handleRefresh()
       // Handle response if needed
-      console.log('Data submitted successfully', response.data);
+      console.log(successMessage)
+      console.log('Data submitted successfully', response);
     } catch (error) {
       console.log(error)
       setError(error as AxiosError);
@@ -30,7 +33,7 @@ const usePostHook = (url: string) => {
     }
   };
 
-  return { isLoading, error, handleSubmit };
+  return { isLoading, error, handleSubmit ,successMessage};
 };
 
 export default usePostHook;

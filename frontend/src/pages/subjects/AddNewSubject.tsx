@@ -19,7 +19,7 @@ interface ButtonConfig extends Omit<ButtonProps, 'onClick'> {
 
 
 const AddNewSubject = () => {
-  const { isLoading, error, handleSubmit } = usePostHook(`${BASE_URL}/subjects`);
+  const { isLoading, error, handleSubmit,successMessage } = usePostHook(`${BASE_URL}/subjects`);
 
   const formFields:Field[] = [
     { name: 'name', label: 'Subject Name', type: 'text' },
@@ -35,7 +35,7 @@ const AddNewSubject = () => {
     <div>
       <div style={{padding:"16px"}}>
           <h2>Enter Subject Name</h2>
-          <CustomForm onSubmit={handleSubmit} fields={formFields} buttons={formButtons} isLoading={isLoading} error={error} />
+          <CustomForm onSubmit={handleSubmit} fields={formFields} buttons={formButtons} isLoading={isLoading} error={error} successMessage={successMessage} />
       </div>
 
       <div style={{marginTop:"30px"}}>

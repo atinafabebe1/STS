@@ -11,8 +11,8 @@ import { useParams } from 'react-router-dom';
 interface Field {
   name: string;
   label: string;
-  type: 'text' | 'dropdown';
-  options?: string[]; 
+  type: 'text' | 'dropdown' | 'number' | 'date';
+  options?: string[];
 }
 
 interface ButtonConfig extends Omit<ButtonProps, 'onClick'> {
@@ -27,13 +27,14 @@ interface DynamicMaterialUIFormProps {
   isLoading: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any;
-
+  successMessage?: string;
 }
 
-const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit, fields, buttons,isLoading,error }) => {
+const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit, fields, buttons, isLoading, error, successMessage }) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
 
-  const {streamId} = useParams();
+  const { streamId } = useParams();
 
   const handleChange = (e: ChangeEvent<{ name?: string; value: unknown }> | SelectChangeEvent<string>, name: string) => {
     const value = typeof e === 'string' ? e : e.target.value;
@@ -41,25 +42,23 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    console.log("streamId")
-    console.log("streamId")
-    console.log("streamId")
-    console.log("streamId")
-    console.log("streamId")
-    console.log("streamId")
-    console.log("streamId")
     e.preventDefault();
-    console.log(streamId)
-    if(streamId){
-       const formDataWithStreamid = { ...formData, streamId };
-       onSubmit(formDataWithStreamid)
-    }else{
+    if (streamId) {
+      const formDataWithStreamid = { ...formData, streamId };
+      onSubmit(formDataWithStreamid);
+    } else {
       onSubmit(formData);
     }
   };
 
+
+  const handleSuccessMessage = () => {
+    setShowSuccessMessage(true);
+    setFormData({}); // Clear form fields
+  };
+
   return (
-    <form >
+    <form>
       <Box p={3} boxShadow={2} borderRadius={4}>
         <Grid container spacing={3} justifyContent="center">
           {fields.map(({ name, label, type, options }) => (
@@ -105,14 +104,22 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
               variant={variant}
               color={color}
               type={type}
-              onClick={(e) => onClick && handleSubmit(e)}
+              onClick={(e) => {
+                onClick && handleSubmit(e);
+                handleSuccessMessage(); // Show success message on click
+              }}
               style={{ margin: '0 10px' }}
             >
               {isLoading ? <CircularProgress size={24} color="inherit" /> : label}
             </Button>
           ))}
         </Box>
-        {error && <Alert severity="error">{error.message}</Alert>}
+        {!isLoading && error && <Alert severity="error">{error.message}</Alert>}
+        {!isLoading && showSuccessMessage && (
+          <Alert severity="success" onClose={() => setShowSuccessMessage(false)}>
+            {successMessage || 'Form submitted successfully!'}
+          </Alert>
+        )}
       </Box>
     </form>
   );
