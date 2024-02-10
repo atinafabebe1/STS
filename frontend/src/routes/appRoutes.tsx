@@ -134,7 +134,7 @@ const appRoutes: RouteType[] = [
     path: "/grades",
     element: <GradePageLayout />,
     state: "grades",
-    visibleOn:["Secretary","Director"],
+    visibleOn:["Secretary"],
     sidebarProps: {
       displayText: "Grades",
       icon: <EqualizerOutlinedIcon />
