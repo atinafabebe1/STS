@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useSchoolContext } from '../context/SchoolAdded';
+import { useRefreshContext } from '../context/RefreshHook';
 
 interface UseFetchProps {
   url: string;
@@ -17,7 +17,7 @@ const useFetch = ({ url }: UseFetchProps): UseFetchResult => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-   const {refreshData}  = useSchoolContext()
+   const {refreshData}  = useRefreshContext()
 
   useEffect(() => {
     const fetchData = async () => {

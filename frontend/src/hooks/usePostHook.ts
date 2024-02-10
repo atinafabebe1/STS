@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios, { AxiosError } from 'axios';
-import { useSchoolContext } from '../context/SchoolAdded';
+import { useRefreshContext } from '../context/RefreshHook';
 
 interface FormData {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -8,7 +8,7 @@ interface FormData {
 }
 
 const usePostHook = (url: string) => {
-  const {handleRefresh} = useSchoolContext();
+  const {handleRefresh} = useRefreshContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<AxiosError | null>(null);
