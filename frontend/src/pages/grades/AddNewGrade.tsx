@@ -1,10 +1,13 @@
-import { ButtonProps, Container, Paper, Typography } from '@mui/material';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button, ButtonProps, Container, TextField, Typography } from '@mui/material';
 import usePostHook from '../../hooks/usePostHook';
-import CustomForm from '../../components/form/CustomForm'
+import CustomForm from '../../components/form/CustomForm';
 import useFetch from '../../hooks/useFetchHook';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BASE_URL } from '../../api/api';
-
+import { SetStateAction, useEffect, useState } from 'react';
+import colorConfigs from '../../configs/colorConfigs';
+import axios from 'axios';
 interface Field {
   name: string;
   label: string;
@@ -18,26 +21,72 @@ interface ButtonConfig extends Omit<ButtonProps, 'onClick'> {
 }
 
 const AddGrade = () => {
-  const {studentId}  =useParams()
-  const { data, loading } = useFetch({ url: `${BASE_URL}/student?_id=${studentId}` });
+  const { studentId } = useParams();
+  const { data } = useFetch({ url: `${BASE_URL}/students?_id=${studentId}` });
+  const { isLoading, error, handleSubmit, successMessage } = usePostHook(`${BASE_URL}/grades`);
 
+  useEffect(() => {
+    if (data && data.length > 0 && data[0].stream && data[0].stream.subjects) {
+      console.log(data[0].stream.subjects);
+    }
+  }, [data]);
 
-  const { isLoading, error, handleSubmit, successMessage } = usePostHook('/api/createGrade');
+  const [inputStudentId, setInputStudentId] = useState('');
+  const navigate = useNavigate();
+
+  const handleInputChange = (event: { target: { value: SetStateAction<string> } }) => {
+    setInputStudentId(event.target.value);
+  };
+
+  const handleFormSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+
+    await axios(`${BASE_URL}/students?idNumber=${inputStudentId}`).then((res)=>{
+        console.log(res.data.data[0])
+        navigate(`/grades/add/${res.data.data[0]?._id}`);
+    })
+    
+  };
+
+  if (!studentId) {
+    return (
+     <form
+      onSubmit={handleFormSubmit}
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+    >
+      <TextField
+        label="Enter Student ID"
+        variant="outlined"
+        value={inputStudentId}
+        onChange={handleInputChange}
+        style={{ marginBottom: 16, width: '80%' }}
+      />
+      <Button type="submit" variant="contained" color="primary" style={{ width: '80%' }}>
+        Submit
+      </Button>
+    </form>
+    );
+  }
+
+  const subjectFields: Field[] | undefined = data && data[0].stream && data[0].stream.subjects
+    ? data[0].stream.subjects.map((subject: { _id: any; name: any }) => ({
+        name: `${subject._id}`,
+        label: `${subject.name}`,
+        type: 'number',
+      }))
+    : [];
 
   const fields: Field[] = [
-    { name: 'semester', label: 'Semester', type: 'dropdown',options:["I","II"] },
+    { name: 'semester', label: 'Semester', type: 'dropdown', options: ['I', 'II'] },
     { name: 'academicYear', label: 'Academic Year', type: 'text' },
-    { name: 'mark', label: 'Mark', type: 'text' },
+    ...(subjectFields || []),
   ];
 
-  const buttons: ButtonConfig[] = [
-    { label: 'Submit', onClick: handleSubmit },
-  ];
+  const buttons: ButtonConfig[] = [{ label: 'Submit', onClick: handleSubmit }];
 
   return (
-    <Container component="main" maxWidth="md">
-      <Paper elevation={3} style={{ padding: 20, marginTop: 20 }}>
-        <Typography variant="h5" gutterBottom>
+     <Container component="main" maxWidth="md">
+        <Typography variant="h5" gutterBottom style={{ color: colorConfigs.text }}>
           Add Grades
         </Typography>
 
@@ -49,7 +98,6 @@ const AddGrade = () => {
           error={error}
           successMessage={successMessage}
         />
-      </Paper>
     </Container>
   );
 };

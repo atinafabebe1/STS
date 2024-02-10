@@ -19,8 +19,10 @@ const usePostHook = (url: string) => {
     console.log(formData)
     setIsLoading(true);
     try {
-      const response = await axios.post(url, formData);
-      setSuccessMessage('Succesfully Submited')
+      const response = await axios.post(url, formData).then(()=>{
+        setSuccessMessage('Succesfully Submited')
+      });
+      
       handleRefresh()
       // Handle response if needed
       console.log(successMessage)

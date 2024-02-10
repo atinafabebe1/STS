@@ -105,6 +105,11 @@ async function saveTranscriptData(transcriptData) {
     return await Transcript.insertMany(transcriptData);
 }
 
+async function getAlltranscript(req, res) {
+    res.status(200).json(res.advancedResults);
+}
+
 module.exports = {
     calculateTranscriptStatistics,
+    getAlltranscript
 };

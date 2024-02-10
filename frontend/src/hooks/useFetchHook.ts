@@ -24,7 +24,10 @@ const useFetch = ({ url }: UseFetchProps): UseFetchResult => {
       try {
         const response = await axios.get(url);
         setData(response.data.data);
-        console.log(response.data.data[0])
+        console.log("response")
+        console.log("response")
+        console.log("response")
+        console.log(response)
       } catch (error) {
         setError('Error fetching data');
       } finally {

@@ -15,9 +15,9 @@ const getGradeById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 const createGrade = async (req, res) => {
-    const { subjectsAndMarks, student, semester, academicYear } = req.body;
+    const { semester, academicYear, student, ...subjectsAndMarks } = req.body;
+    console.log(subjectsAndMarks)
 
     try {
         // Check if the student exists
@@ -29,7 +29,7 @@ const createGrade = async (req, res) => {
         const stream = await Stream.findById(existingStudent.stream).populate('subjects');
 
         // Check if all subjects exist in the student's stream
-        const invalidSubjects = subjectsAndMarks.filter(({ subject }) => !stream.subjects.some(subjectItem => subjectItem._id.toString() === subject));
+        const invalidSubjects = Object.keys(subjectsAndMarks).filter(subjectId => !stream.subjects.some(subjectItem => subjectItem._id.toString() === subjectId));
 
         if (invalidSubjects.length > 0) {
             return res.status(400).json({ error: "Some subjects do not exist in the student's stream" });
@@ -37,9 +37,10 @@ const createGrade = async (req, res) => {
 
         const savedGrades = [];
 
-        for (const { subject, marks } of subjectsAndMarks) {
+        for (const subjectId in subjectsAndMarks) {
+            const marks = subjectsAndMarks[subjectId];
             const newGrade = new Grade({
-                subject,
+                subject: subjectId,
                 student,
                 semester,
                 marks,
@@ -66,6 +67,7 @@ const createGrade = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
 
 const updateGrade = async (req, res) => {
     try {

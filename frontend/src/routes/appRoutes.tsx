@@ -19,6 +19,7 @@ import AddSubjectToStream from "../pages/streams/AddSubjectToStream";
 import GradePageLayout from "../pages/grades/GradePageLayout";
 import TranscriptsPageLayout from "../pages/transcripts/TranscriptPageLayout";
 import ViewTranscripts from "../pages/transcripts/ViewTranscripts";
+import AddGrade from "../pages/grades/AddNewGrade";
 
 const appRoutes: RouteType[] = [
  
@@ -141,12 +142,19 @@ const appRoutes: RouteType[] = [
     child: [
       {
         path: "/grades/add",
-        element: <HomePage />,
+        element: <AddGrade />,
         state: "grades.add",
         visibleOn:["Secretary"],
         sidebarProps: {
           displayText: "Add"
         }
+      },
+      {
+        path: "/grades/add/:studentId",
+        element: <AddGrade />,
+        state: "grades.add",
+        visibleOn:["Secretary"],
+      
       },
       {
         path: "/grades/edit/:studentId/:gradeId",

@@ -34,7 +34,7 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
 
-  const { streamId } = useParams();
+  const { streamId,studentId } = useParams();
 
   const handleChange = (e: ChangeEvent<{ name?: string; value: unknown }> | SelectChangeEvent<string>, name: string) => {
     const value = typeof e === 'string' ? e : e.target.value;
@@ -46,9 +46,13 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
     if (streamId) {
       const formDataWithStreamid = { ...formData, streamId };
       onSubmit(formDataWithStreamid);
-    } else {
+    }else if(studentId){
+      const formDataWithStudentid = { ...formData, student:studentId };
+      onSubmit(formDataWithStudentid);
+    }else {
       onSubmit(formData);
     }
+
   };
 
 
