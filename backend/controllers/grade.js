@@ -3,47 +3,40 @@ const Student = require('../models/student');
 const Stream = require('../models/stream');
 const Transcript = require('../models/transcript');
 const ErrorResponse = require('../utils/errorResponse');
+const asyncHandler = require('../middlewares/async');
 
-const getAllGrades = async (req, res) => {
+const getAllGrades = asyncHandler(async (req, res) => {
     res.status(200).json(res.advancedResults);
-};
+});
 
-const getGradeById = async (req, res) => {
-    try {
-        const grade = await Grade.findById(req.params.id);
-        res.json(grade);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+const getGradeById = asyncHandler(async (req, res) => {
+    const grade = await Grade.findById(req.params.id);
+    res.json(grade);
+});
 
-const createGrade = async (req, res, next) => {
+const createGrade = asyncHandler(async (req, res, next) => {
     const { student, semester, academicYear, ...subjectsAndMarks } = req.body;
-    console.log(subjectsAndMarks);
 
     try {
         const existingStudent = await Student.findById(student);
         if (!existingStudent) {
-            res.status(400).json({ error: 'This student is not registered' });
-            return;
+            return next(new ErrorResponse('This student is not registered', 400));
         }
 
         const stream = await Stream.findById(existingStudent.stream).populate('subjects');
-        console.log(subjectsAndMarks);
 
         const invalidSubjects = Object.entries(subjectsAndMarks).filter(
             ([subject]) => !stream.subjects.some((subjectItem) => subjectItem._id.toString() === subject)
         );
 
         if (invalidSubjects.length > 0) {
-            res.status(400).json({ error: "Some subjects do not exist in the student's stream" });
-            return;
+            return next(new ErrorResponse("Some subjects do not exist in the student's stream", 400));
         }
 
-        const existingGradeforStudent = await Grade.find({ semester: semester, student: student, academicYear: academicYear });
+        const existingGradeforStudent = await Grade.find({ semester, student, academicYear });
 
-        if (existingGradeforStudent.length != 0) {
-            return next(new ErrorResponse('This Student\'s Grade has already been saved', 400));
+        if (existingGradeforStudent.length !== 0) {
+            return next(new ErrorResponse("This Student's Grade has already been saved", 400));
         }
 
         const savedGrades = await Promise.all(
@@ -68,15 +61,13 @@ const createGrade = async (req, res, next) => {
         if (transcript) {
             const totalGrades = [...savedGrades, ...transcript.grades];
 
-            const newn = await Transcript.findByIdAndUpdate(transcript._id, {
+            await Transcript.findByIdAndUpdate(transcript._id, {
                 student,
                 academicYear,
                 grades: totalGrades.map((grade) => grade._id),
                 totalMarks,
                 average
             });
-
-            console.log(newn);
         } else {
             await Transcript.create({
                 student,
@@ -89,27 +80,19 @@ const createGrade = async (req, res, next) => {
 
         res.status(201).json(savedGrades);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        return next(new ErrorResponse(error.message, 400));
     }
-};
+});
 
-const updateGrade = async (req, res) => {
-    try {
-        const updatedGrade = await Grade.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.json(updatedGrade);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-};
+const updateGrade = asyncHandler(async (req, res) => {
+    const updatedGrade = await Grade.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedGrade);
+});
 
-const deleteGrade = async (req, res) => {
-    try {
-        await Grade.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Grade deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+const deleteGrade = asyncHandler(async (req, res) => {
+    await Grade.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Grade deleted successfully' });
+});
 
 module.exports = {
     getAllGrades,

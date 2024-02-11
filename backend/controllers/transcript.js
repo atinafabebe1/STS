@@ -1,19 +1,16 @@
 const Transcript = require('../models/transcript');
 const Grade = require('../models/grade');
 const Student = require('../models/student');
+const asyncHandler = require('../middlewares/async')
 
-async function calculateTranscriptStatistics(req, res) {
-    try {
-        const { year } = req.params;
-        const transcriptData = await generateTranscriptData(year);
-        await saveTranscriptData(transcriptData);
+const calculateTranscriptStatistics = asyncHandler(async (req, res) => {
+    const { year } = req.params;
+    const transcriptData = await generateTranscriptData(year);
+    await saveTranscriptData(transcriptData);
 
-        res.status(200).json({ message: 'Transcript statistics calculated successfully.' });
-    } catch (error) {
-        console.error('Error calculating transcript statistics:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-}
+    res.status(200).json({ message: 'Transcript statistics calculated successfully.' });
+});
+
 
 async function generateTranscriptData(year) {
     const transcriptData = [];

@@ -1,83 +1,68 @@
+const asyncHandler = require('../middlewares/async');
 const Student = require('../models/student');
-const Stream = require('../models/stream')
+const Stream = require('../models/stream');
+const ErrorResponse = require('../utils/errorResponse');
+
 // Create a new student
-const createStudent = async (req, res) => {
-    try {
-        console.log(req.body)
-        const stream = await Stream.findOne({ name: req.body.stream })
-        if (!stream) {
-            return res.status(400).json({ message: 'Stream not found' })
-        }
-        req.body.stream = stream._id
-        const student = new Student(req.body);
-        await student.save();
-        res.json({ student });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Server Error');
+const createStudent = asyncHandler(async (req, res) => {
+    console.log(req.body);
+    const stream = await Stream.findOne({ name: req.body.stream });
+
+    if (!stream) {
+        return next(new ErrorResponse('Stream not found', 400));
     }
-};
+
+    req.body.stream = stream._id;
+    const student = new Student(req.body);
+    await student.save();
+    res.json({ student });
+});
 
 // Get all students
-const getAllStudents = async (req, res) => {
+const getAllStudents = asyncHandler(async (req, res) => {
     res.status(200).json(res.advancedResults);
-};
+});
 
 // Get a student by ID
-const getStudentById = async (req, res) => {
-    try {
-        const student = await Student.findById(req.params.id);
+const getStudentById = asyncHandler(async (req, res) => {
+    const student = await Student.findById(req.params.id);
 
-        if (!student) {
-            return res.status(404).json({ msg: 'Student not found' });
-        }
-
-        res.json({ student });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Server Error');
+    if (!student) {
+        return next(new ErrorResponse('Student not found', 404));
     }
-};
+
+    res.json({ student });
+});
 
 // Update a student by ID
-const updateStudentById = async (req, res) => {
+const updateStudentById = asyncHandler(async (req, res) => {
     const allowedUpdates = ['fullName', 'age', 'stream', 'idNumber', 'gender', 'dateOfAdmission', 'dateOfLeaving'];
     const updates = req.body;
     const isValidOperation = Object.keys(updates).every(update => allowedUpdates.includes(update));
 
     if (!isValidOperation) {
-        return res.status(400).json({ msg: 'Invalid updates!' });
+        return next(new ErrorResponse('Invalid updates', 400));
     }
 
-    try {
-        const student = await Student.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });
+    const student = await Student.findByIdAndUpdate(req.params.id, updates, { new: true, runValidators: true });
 
-        if (!student) {
-            return res.status(404).json({ msg: 'Student not found' });
-        }
-
-        res.json({ student });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Server Error');
+    if (!student) {
+        return next(new ErrorResponse('Student not found', 404));
     }
-};
+
+    res.json({ student });
+});
 
 // Delete a student by ID
-const deleteStudentById = async (req, res) => {
-    try {
-        const student = await Student.findByIdAndDelete(req.params.id);
+const deleteStudentById = asyncHandler(async (req, res) => {
+    const student = await Student.findByIdAndDelete(req.params.id);
 
-        if (!student) {
-            return res.status(404).json({ msg: 'Student not found' });
-        }
-
-        res.json({ msg: 'Student deleted' });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('Server Error');
+    if (!student) {
+        return next(new ErrorResponse('Student not found', 404));
     }
-};
+
+    res.json({ msg: 'Student deleted' });
+});
 
 module.exports = {
     createStudent,
