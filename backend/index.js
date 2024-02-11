@@ -14,6 +14,8 @@ const streamRoutes = require('./routes/stream')
 const gradeRoutes = require('./routes/grade')
 const transcriptRoutes = require('./routes/transcript')
 
+const errorHandler = require('./middlewares/error')
+
 const app = express();
 const port = process.env.PORT || 3500;
 
@@ -46,6 +48,7 @@ app.use('/api/subjects', subjectRoutes);
 app.use('/api/streams', streamRoutes);
 app.use('/api/grades', gradeRoutes);
 app.use('/api/transcript', transcriptRoutes);
+app.use(errorHandler);
 
 // Connect to the database
 connectToDb((err) => {

@@ -34,8 +34,13 @@ const loginController = async (req, res) => {
         });
 
         res.cookie('token', token, {
-            httpOnly: true, maxAge: 3600000, sameSite: 'none', secure: true
+            httpOnly: true,
+            maxAge: 3600000,
+            sameSite: 'none',
+            secure: true,
+            // domain: '.vercel.app',
         });
+
         res.status(200).json({ message: 'Login successful' });
     } catch (error) {
         console.error(error);

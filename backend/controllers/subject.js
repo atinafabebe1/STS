@@ -3,6 +3,7 @@ const Subject = require('../models/subject');
 // Create a new subject
 const createSubject = async (req, res) => {
     try {
+        console.log(req.body)
         const subject = new Subject(req.body);
         await subject.save();
         res.json({ subject });

@@ -1,7 +1,8 @@
 const Grade = require('../models/grade');
-const Student = require('../models/student')
-const Stream = require('../models/stream')
-const Transcript = require('../models/transcript')
+const Student = require('../models/student');
+const Stream = require('../models/stream');
+const Transcript = require('../models/transcript');
+const ErrorResponse = require('../utils/errorResponse');
 
 const getAllGrades = async (req, res) => {
     res.status(200).json(res.advancedResults);
@@ -16,39 +17,50 @@ const getGradeById = async (req, res) => {
     }
 };
 
-const createGrade = async (req, res) => {
+const createGrade = async (req, res, next) => {
     const { student, semester, academicYear, ...subjectsAndMarks } = req.body;
     console.log(subjectsAndMarks);
 
     try {
         const existingStudent = await Student.findById(student);
         if (!existingStudent) {
-            return res.status(400).json({ error: "This student is not registered" });
+            res.status(400).json({ error: 'This student is not registered' });
+            return;
         }
 
         const stream = await Stream.findById(existingStudent.stream).populate('subjects');
         console.log(subjectsAndMarks);
 
-        const invalidSubjects = Object.entries(subjectsAndMarks).filter(([subject]) => !stream.subjects.some(subjectItem => subjectItem._id.toString() === subject));
+        const invalidSubjects = Object.entries(subjectsAndMarks).filter(
+            ([subject]) => !stream.subjects.some((subjectItem) => subjectItem._id.toString() === subject)
+        );
 
         if (invalidSubjects.length > 0) {
-            return res.status(400).json({ error: "Some subjects do not exist in the student's stream" });
+            res.status(400).json({ error: "Some subjects do not exist in the student's stream" });
+            return;
         }
 
-        const savedGrades = await Promise.all(Object.entries(subjectsAndMarks).map(async ([subject, marks]) => {
-            const newGrade = new Grade({
-                subject,
-                student,
-                semester,
-                marks,
-                academicYear
-            });
+        const existingGradeforStudent = await Grade.find({ semester: semester, student: student, academicYear: academicYear });
 
-            return await newGrade.save();
-        }));
+        if (existingGradeforStudent.length != 0) {
+            return next(new ErrorResponse('This Student\'s Grade has already been saved', 400));
+        }
+
+        const savedGrades = await Promise.all(
+            Object.entries(subjectsAndMarks).map(async ([subject, marks]) => {
+                const newGrade = new Grade({
+                    subject,
+                    student,
+                    semester,
+                    marks,
+                    academicYear
+                });
+
+                return await newGrade.save();
+            })
+        );
 
         const transcript = await Transcript.findOne({ student, academicYear }).populate('grades');
-
 
         const totalMarks = savedGrades.reduce((sum, grade) => sum + grade.marks, 0);
         const average = totalMarks / savedGrades.length;
@@ -59,18 +71,17 @@ const createGrade = async (req, res) => {
             const newn = await Transcript.findByIdAndUpdate(transcript._id, {
                 student,
                 academicYear,
-                grades: totalGrades.map(grade => grade._id),
+                grades: totalGrades.map((grade) => grade._id),
                 totalMarks,
                 average
             });
 
-            console.log(newn)
-
+            console.log(newn);
         } else {
             await Transcript.create({
                 student,
                 academicYear,
-                grades: savedGrades.map(grade => grade._id),
+                grades: savedGrades.map((grade) => grade._id),
                 totalMarks,
                 average
             });
@@ -82,14 +93,9 @@ const createGrade = async (req, res) => {
     }
 };
 
-
 const updateGrade = async (req, res) => {
     try {
-        const updatedGrade = await Grade.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            { new: true }
-        );
+        const updatedGrade = await Grade.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.json(updatedGrade);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -110,5 +116,5 @@ module.exports = {
     getGradeById,
     createGrade,
     updateGrade,
-    deleteGrade,
+    deleteGrade
 };
