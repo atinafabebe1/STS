@@ -17,7 +17,7 @@ interface ButtonConfig extends Omit<ButtonProps, 'onClick'> {
 
 const AddNewStudent = () => {
   
-  const { isLoading, error, handleSubmit } = usePostHook(`${BASE_URL}/students`);
+  const { isLoading, error, handleSubmit,successMessage } = usePostHook(`${BASE_URL}/students`);
 
   const formFields:Field[] = [
     { name: 'fullName', label: 'Full Name', type: 'text' },
@@ -38,7 +38,7 @@ const AddNewStudent = () => {
   return (
     <div>
       <h2>Student Information Form</h2>
-      <CustomForm onSubmit={handleSubmit} fields={formFields} buttons={formButtons} isLoading={isLoading} error={error} />
+      <CustomForm onSubmit={handleSubmit} fields={formFields} buttons={formButtons} isLoading={isLoading} error={error} successMessage={successMessage}/>
     </div>
   );
 };

@@ -25,6 +25,15 @@ const createGrade = asyncHandler(async (req, res, next) => {
 
         const stream = await Stream.findById(existingStudent.stream).populate('subjects');
 
+        const missingSubjects = stream.subjects.filter(
+            (subject) => !Object.keys(subjectsAndMarks).includes(subject._id.toString())
+        );
+
+
+        if (missingSubjects.length != 0) {
+            return next(new ErrorResponse("Incomplete Submission: Please provide all required fields.", 400));
+        }
+
         const invalidSubjects = Object.entries(subjectsAndMarks).filter(
             ([subject]) => !stream.subjects.some((subjectItem) => subjectItem._id.toString() === subject)
         );

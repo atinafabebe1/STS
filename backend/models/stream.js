@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const streamSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: [true, 'Name is required'], unique: true },
     subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Subject' }]
 });
 
