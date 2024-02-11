@@ -1,6 +1,7 @@
 import React from 'react';
-import { Card, CardContent, Typography, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Card, CardContent, Typography, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import colorConfigs from '../../configs/colorConfigs';
+import { Print, Edit } from '@mui/icons-material';
 
 interface Grade {
   _id: string;
@@ -42,7 +43,6 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
       style={{
         backgroundColor: colorConfigs.paper,
         color: colorConfigs.text,
-        borderRadius: '8px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
       }}
     >
@@ -50,13 +50,37 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
         style={{
           backgroundColor: colorConfigs.primary,
           color: colorConfigs.secondaryText,
-          padding: '16px',
-          borderRadius: '8px 8px 0 0'
+          padding: '2px 8px'
         }}
       >
-        <Typography variant="h5" gutterBottom>
-          Academic Year: {transcript.academicYear}
-        </Typography>
+        <div style={{ display: 'flex' }}>
+          <Typography style={{ width: '360px' }} variant="h6" gutterBottom>
+            Academic Year: {transcript.academicYear}
+          </Typography>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+            <Button
+              size="small"
+              variant="contained"
+              style={{
+                background: 'none',
+                border: 'none',
+                boxShadow: 'none',
+                marginLeft: '20px'
+              }}
+              startIcon={<Print />}
+            >
+              Print
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              style={{ background: 'none', border: 'none', boxShadow: 'none', marginLeft: '20px' }}
+              startIcon={<Edit />}
+            >
+              Edit
+            </Button>
+          </div>
+        </div>
       </div>
 
       <CardContent style={{ padding: '16px' }}>
@@ -89,7 +113,7 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
           </Grid>
 
           {transcript.grades?.length > 0 ? (
-            <Grid container spacing={2} style={{padding:"16px"}}>
+            <Grid container spacing={2} style={{ padding: '16px' }}>
               <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
                   Grades
@@ -102,7 +126,7 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
                       Semester: {semester}
                     </Typography>
                     <TableContainer component={Paper} style={{ marginBottom: '16px' }}>
-                      <Table size='small'>
+                      <Table size="small">
                         <TableHead>
                           <TableRow>
                             <TableCell>Subject</TableCell>

@@ -12,7 +12,7 @@ const colorConfigs = {
   },
   mainBg: "#ecf0f1",
   primary: "#3498db",      
-  secondary: "#2ecc71",     
+  secondary: "#939393",     
   text: "#333",   
   secondaryText: "#fff",          
   background: "#ecf0f1",    
