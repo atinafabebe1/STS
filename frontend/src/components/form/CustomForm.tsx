@@ -32,9 +32,8 @@ interface DynamicMaterialUIFormProps {
 
 const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit, fields, buttons, isLoading, error, successMessage }) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
-  const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
 
-  const { streamId,studentId } = useParams();
+  const { streamId, studentId } = useParams();
 
   const handleChange = (e: ChangeEvent<{ name?: string; value: unknown }> | SelectChangeEvent<string>, name: string) => {
     const value = typeof e === 'string' ? e : e.target.value;
@@ -46,20 +45,15 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
     if (streamId) {
       const formDataWithStreamid = { ...formData, streamId };
       onSubmit(formDataWithStreamid);
-    }else if(studentId){
-      const formDataWithStudentid = { ...formData, student:studentId };
+    } else if (studentId) {
+      const formDataWithStudentid = { ...formData, student: studentId };
       onSubmit(formDataWithStudentid);
-    }else {
+    } else {
       onSubmit(formData);
     }
-
   };
 
-
-  const handleSuccessMessage = () => {
-    setShowSuccessMessage(true);
-    setFormData({}); // Clear form fields
-  };
+  
 
   return (
     <form>
@@ -86,6 +80,7 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
                 </Select>
               ) : (
                 <TextField
+                  required={true}
                   fullWidth
                   label={label}
                   type={type}
@@ -110,7 +105,7 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
               type={type}
               onClick={(e) => {
                 onClick && handleSubmit(e);
-                handleSuccessMessage(); // Show success message on click
+                setFormData({});
               }}
               style={{ margin: '0 10px' }}
             >
@@ -118,10 +113,10 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
             </Button>
           ))}
         </Box>
-        {!isLoading && error && <Alert severity="error">{error.message}</Alert>}
-        {!isLoading && showSuccessMessage && (
-          <Alert severity="success" onClose={() => setShowSuccessMessage(false)}>
-            {successMessage || 'Form submitted successfully!'}
+        {!isLoading && error && <Alert severity="error">{error}</Alert>}
+        {!isLoading && successMessage && (
+          <Alert severity="success">
+            {successMessage}
           </Alert>
         )}
       </Box>

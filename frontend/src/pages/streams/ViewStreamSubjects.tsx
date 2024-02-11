@@ -12,19 +12,18 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
+  TableBody
 } from '@mui/material';
-import {  useParams } from 'react-router-dom';
-import {  Delete } from '@mui/icons-material';
+import { useParams } from 'react-router-dom';
+import { Delete } from '@mui/icons-material';
 import useFetch from '../../hooks/useFetchHook';
 import colorConfigs from '../../configs/colorConfigs';
 import { BASE_URL } from '../../api/api';
 
 const ViewStreamSubjects: React.FC = () => {
-  const { streamId} = useParams();
+  const { streamId } = useParams();
 
   const { data, loading, error } = useFetch({ url: `${BASE_URL}/streams?_id=${streamId}` });
-
 
   if (loading) {
     return <CircularProgress />;
@@ -38,11 +37,10 @@ const ViewStreamSubjects: React.FC = () => {
     );
   }
 
-
   const handleDeleteClick = (streamId: string) => {
-    console.log(streamId)
+    console.log(streamId);
   };
-  
+
   const tableCellStyle = {
     color: colorConfigs.text,
     backgroundColor: colorConfigs.background
@@ -55,13 +53,19 @@ const ViewStreamSubjects: React.FC = () => {
   return (
     <div style={{ backgroundColor: colorConfigs.mainBg, padding: '16px' }}>
       <Typography variant="h4" gutterBottom style={{ color: colorConfigs.text }}>
-        Subjects Under 
-        {data[0] && <> {data[0].name} </>} Stream
+        Subjects Under
+        {data[0] && (
+          <>
+            {' '}
+            <span style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{data[0].name}</span>{' '}
+          </>
+        )}
+        Stream
       </Typography>
 
       {data[0] && data[0]?.subjects.length > 0 ? (
         <TableContainer component={Paper} style={{ backgroundColor: colorConfigs.paper, marginBottom: '16px' }}>
-          <Table size='small'>
+          <Table size="small">
             <TableHead>
               <TableRow style={{ backgroundColor: colorConfigs.primary }}>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Subject Name</TableCell>
@@ -73,9 +77,8 @@ const ViewStreamSubjects: React.FC = () => {
                 <TableRow key={subject.id} style={tableCellStyle}>
                   <TableCell style={tableCellStyle}>{subject.name}</TableCell>
                   <TableCell>
-                    
                     <Tooltip title="Delete Subject" arrow>
-                      <IconButton onClick={() => handleDeleteClick(subject.id)} style={iconButtonStyle}>
+                      <IconButton size='small' onClick={() => handleDeleteClick(subject.id)} style={iconButtonStyle}>
                         <Delete />
                       </IconButton>
                     </Tooltip>

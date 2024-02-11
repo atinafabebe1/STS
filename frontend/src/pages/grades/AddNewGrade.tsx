@@ -24,7 +24,6 @@ const AddGrade = () => {
   const { studentId } = useParams();
   const { data } = useFetch({ url: `${BASE_URL}/students?_id=${studentId}` });
   const { isLoading, error, handleSubmit, successMessage } = usePostHook(`${BASE_URL}/grades`);
-
   useEffect(() => {
     if (data && data.length > 0 && data[0].stream && data[0].stream.subjects) {
       console.log(data[0].stream.subjects);

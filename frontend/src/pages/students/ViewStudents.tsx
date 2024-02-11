@@ -12,7 +12,7 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
+  TableBody
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
@@ -37,28 +37,28 @@ const ViewStudents: React.FC = () => {
 
   const handleEditClick = (studentId: string) => {
     // Handle edit click logic
-    console.log(studentId)
+    console.log(studentId);
   };
 
   const handleDeleteClick = (studentId: string) => {
     // Handle delete click logic
-    console.log(studentId)
+    console.log(studentId);
   };
 
   const tableCellStyle = {
     color: colorConfigs.text,
-    backgroundColor: colorConfigs.background,
+    backgroundColor: colorConfigs.background
   };
 
   const linkStyle = {
     marginLeft: '8px',
     color: colorConfigs.primary,
-    textDecoration: 'none',  // Remove underline
-    transition: 'color 0.3s ease',  // Add smooth color transition on hover
+    textDecoration: 'none', // Remove underline
+    transition: 'color 0.3s ease' // Add smooth color transition on hover
   };
 
   const iconButtonStyle = {
-    color: colorConfigs.primary,
+    color: colorConfigs.primary
   };
 
   return (
@@ -69,7 +69,7 @@ const ViewStudents: React.FC = () => {
 
       {data && data.length > 0 ? (
         <TableContainer component={Paper} style={{ backgroundColor: colorConfigs.paper, marginBottom: '16px' }}>
-          <Table size='small'>
+          <Table size="small">
             <TableHead>
               <TableRow style={{ backgroundColor: colorConfigs.primary }}>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Student Name</TableCell>
@@ -78,35 +78,23 @@ const ViewStudents: React.FC = () => {
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Section</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>ID Number</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Gender</TableCell>
+                <TableCell style={{ color: colorConfigs.secondaryText }}>Transcript</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {data.map((student: any) => (
-                <TableRow
-                  key={student.id}
-                  style={{ ...tableCellStyle, cursor: 'pointer' }}
-                  component={Link}
-                  to={`/transcript/view/${student._id}`}
-                  sx={{ ...linkStyle }}  
-                >
-                  <TableCell style={tableCellStyle}>
-                    {student.fullName}
-                  </TableCell>
-                  <TableCell style={tableCellStyle}>
-                    {student.age}
-                  </TableCell>
-                  <TableCell style={tableCellStyle}>
-                    {student.stream.name}
-                  </TableCell>
-                  <TableCell style={tableCellStyle}>
-                    {student.section}
-                  </TableCell>
-                  <TableCell style={tableCellStyle}>
-                    {student.idNumber}
-                  </TableCell>
-                  <TableCell style={tableCellStyle}>
-                    {student.gender}
+                <TableRow key={student.id} style={{ ...tableCellStyle }}>
+                  <TableCell style={tableCellStyle}>{student.fullName}</TableCell>
+                  <TableCell style={tableCellStyle}>{student.age}</TableCell>
+                  <TableCell style={tableCellStyle}>{student.stream.name}</TableCell>
+                  <TableCell style={tableCellStyle}>{student.section}</TableCell>
+                  <TableCell style={tableCellStyle}>{student.idNumber}</TableCell>
+                  <TableCell style={tableCellStyle}>{student.gender}</TableCell>
+                  <TableCell style={tableCellStyle} sx={{ ...linkStyle }}>
+                    <Link to={`/transcript/view/${student._id}`} style={{cursor: 'pointer', textDecoration: 'none', color: 'dodgerblue' }}>
+                      See Transcript
+                    </Link>
                   </TableCell>
                   <TableCell>
                     <Tooltip title="Edit Student" arrow>

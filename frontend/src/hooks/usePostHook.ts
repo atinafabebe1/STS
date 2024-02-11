@@ -1,41 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useRefreshContext } from '../context/RefreshHook';
 
 interface FormData {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
 
 const usePostHook = (url: string) => {
-  const {handleRefresh} = useRefreshContext();
+  const { handleRefresh } = useRefreshContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<AxiosError | null>(null);
+  const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
 
-
   const handleSubmit = async (formData: FormData) => {
-    console.log("formData")
-    console.log(formData)
     setIsLoading(true);
     try {
-      const response = await axios.post(url, formData).then(()=>{
-        setSuccessMessage('Succesfully Submited')
-      });
-      
-      handleRefresh()
-      console.log(successMessage)
-      console.log('Data submitted successfully', response);
-    } catch (error) {
-      console.log(error)
-      setError(error as AxiosError);
+      const response: AxiosResponse = await axios.post(url, formData);
+      console.log(response);
+      handleRefresh();
+      setSuccessMessage('Successfully Submitted');
+      setError('');
+    } catch (error: any) { // Explicitly define error as AxiosError
+      console.log(error.response?.data?.error);
+      setSuccessMessage('');
+      if (error.response?.data?.error) {
+        setError(error.response?.data?.error || 'An unexpected error occurred');
+      } else {
+        setError('An unexpected error occurred');
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { isLoading, error, handleSubmit ,successMessage};
+  return { isLoading, error, handleSubmit, successMessage };
 };
 
 export default usePostHook;

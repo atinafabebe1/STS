@@ -89,13 +89,13 @@ const ViewStreams: React.FC = () => {
                   <TableCell>
 
                     <Tooltip title="Edit Stream" arrow>
-                      <IconButton onClick={() => handleEditClick(stream.id)} style={iconButtonStyle}>
+                      <IconButton size='small' onClick={() => handleEditClick(stream.id)} style={iconButtonStyle}>
                         <Edit />
                       </IconButton>
                     </Tooltip>
 
                     <Tooltip title="Delete Stream" arrow>
-                      <IconButton onClick={() => handleDeleteClick(stream.id)} style={iconButtonStyle}>
+                      <IconButton size='small' onClick={() => handleDeleteClick(stream.id)} style={iconButtonStyle}>
                         <Delete />
                       </IconButton>
                     </Tooltip>
