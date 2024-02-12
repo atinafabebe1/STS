@@ -4,7 +4,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/School';
 import EqualizerOutlinedIcon from '@mui/icons-material/Equalizer';
 import SubjectOutlinedIcon from '@mui/icons-material/Subject';
-import { Home, ReportRounded, Summarize } from "@mui/icons-material";
+import { Home, ReportRounded, Summarize, ClassRounded } from "@mui/icons-material";
 import AddNewStudent from "../pages/students/AddNewStudent";
 import StudentsLayout from "../pages/students/StudentsLayout";
 import ViewStudents from "../pages/students/ViewStudents";
@@ -237,6 +237,48 @@ const appRoutes: RouteType[] = [
         path: "/subjects/remove/:subjectId",
         element: <HomePage />,
         state: "subjects.remove",
+        visibleOn:["Director"],
+      },
+    ]
+  },
+  {
+    path: "/enrollment",
+    element: <SubjectsPageLayout />,
+    state: "enrollment",
+    visibleOn:["Director"],
+    sidebarProps: {
+      displayText: "Enrollments",
+      icon: <ClassRounded />
+    },
+    child: [
+      {
+        path: "/enrollment/view",
+        element: <ViewSubjects />,
+        state: "enrollment.view",
+        visibleOn:["Director"],
+        sidebarProps: {
+          displayText: "Classes"
+        },
+      },
+      {
+        path: "/enrollment/add",
+        element: <AddNewSubject />,
+        state: "enrollment.add",
+        visibleOn:["Director"],
+        sidebarProps: {
+          displayText: "Academic Year"
+        }
+      },
+      {
+        path: "/enrollment/edit/:subjectId",
+        element: <HomePage />,
+        state: "enrollment.edit",
+        visibleOn:["Director"],
+      },
+      {
+        path: "/enrollment/remove/:subjectId",
+        element: <HomePage />,
+        state: "enrollment.remove",
         visibleOn:["Director"],
       },
     ]

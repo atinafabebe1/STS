@@ -11,6 +11,8 @@ const userRoutes = require('./routes/user')
 const studentRoutes = require('./routes/student')
 const subjectRoutes = require('./routes/subject')
 const streamRoutes = require('./routes/stream')
+const academicYearsRoutes = require('./routes/academicYears')
+const classesRoutes = require('./routes/classes')
 const gradeRoutes = require('./routes/grade')
 const transcriptRoutes = require('./routes/transcript')
 
@@ -46,6 +48,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/streams', streamRoutes);
+app.use('/api/classes', classesRoutes);
+app.use('/api/acdemicYears', academicYearsRoutes);
 app.use('/api/grades', gradeRoutes);
 app.use('/api/transcript', transcriptRoutes);
 app.use(errorHandler);
