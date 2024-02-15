@@ -20,6 +20,7 @@ import GradePageLayout from "../pages/grades/GradePageLayout";
 import TranscriptsPageLayout from "../pages/transcripts/TranscriptPageLayout";
 import ViewTranscripts from "../pages/transcripts/ViewTranscripts";
 import AddGrade from "../pages/grades/AddNewGrade";
+import AddNewClasses from "../pages/classes/AddNewClasses";
 
 const appRoutes: RouteType[] = [
  
@@ -253,7 +254,7 @@ const appRoutes: RouteType[] = [
     child: [
       {
         path: "/enrollment/view",
-        element: <ViewSubjects />,
+        element: <AddNewClasses />,
         state: "enrollment.view",
         visibleOn:["Director"],
         sidebarProps: {

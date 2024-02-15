@@ -18,10 +18,9 @@ import { Edit, Delete } from '@mui/icons-material';
 import useFetch from '../../hooks/useFetchHook';
 import colorConfigs from '../../configs/colorConfigs';
 import { BASE_URL } from '../../api/api';
-
 const ViewClasses: React.FC = () => {
   const { data, loading, error } = useFetch({ url: `${BASE_URL}/classes` });
-    
+
   if (loading) {
     return <CircularProgress />;
   }
@@ -34,21 +33,18 @@ const ViewClasses: React.FC = () => {
     );
   }
 
-  const handleEditClick = (subjectId: string) => {
-    console.log(subjectId)
-  };
-  
-  const handleDeleteClick = (subjectId: string) => {
-    console.log(subjectId)
+  const handleEditClick = (classId: string) => {
+    console.log(classId);
   };
 
-
+  const handleDeleteClick = (classId: string) => {
+    console.log(classId);
+  };
 
   const tableCellStyle = {
     color: colorConfigs.text,
     backgroundColor: colorConfigs.background,
   };
-
 
   const iconButtonStyle = {
     color: colorConfigs.primary,
@@ -62,34 +58,31 @@ const ViewClasses: React.FC = () => {
 
       {data && data.length > 0 ? (
         <TableContainer component={Paper} style={{ backgroundColor: colorConfigs.paper, marginBottom: '16px' }}>
-          <Table size='small'>
+          <Table size="small">
             <TableHead>
               <TableRow style={{ backgroundColor: colorConfigs.primary }}>
-                <TableCell style={{ color: colorConfigs.secondaryText }}>Name</TableCell>
+                <TableCell style={{ color: colorConfigs.secondaryText }}>Grade Level</TableCell>
+                <TableCell style={{ color: colorConfigs.secondaryText }}>Sections</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((subject: any) => (
-                <TableRow key={subject.id} style={tableCellStyle}>
-                  <TableCell style={tableCellStyle}>
-                    {subject.name}
-                  </TableCell>
+              {data.map((schoolClass: any) => (
+                <TableRow key={schoolClass.id} style={tableCellStyle}>
+                  <TableCell style={tableCellStyle}>{schoolClass.gradeLevel}</TableCell>
+                  <TableCell style={tableCellStyle}>{schoolClass.sections.join(', ')}</TableCell>
                   <TableCell>
-
                     <Tooltip title="Edit Class" arrow>
-                      <IconButton onClick={() => handleEditClick(subject.id)} style={iconButtonStyle}>
+                      <IconButton onClick={() => handleEditClick(schoolClass.id)} style={iconButtonStyle}>
                         <Edit />
                       </IconButton>
                     </Tooltip>
 
                     <Tooltip title="Delete Class" arrow>
-                      <IconButton onClick={() => handleDeleteClick(subject.id)} style={iconButtonStyle}>
+                      <IconButton onClick={() => handleDeleteClick(schoolClass.id)} style={iconButtonStyle}>
                         <Delete />
                       </IconButton>
                     </Tooltip>
-
-                    
                   </TableCell>
                 </TableRow>
               ))}

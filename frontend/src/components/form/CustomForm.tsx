@@ -104,6 +104,9 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
               color={color}
               type={type}
               onClick={(e) => {
+                console.log("Called")
+                console.log("Called")
+                console.log("Called")
                 onClick && handleSubmit(e);
                 setFormData({});
               }}
