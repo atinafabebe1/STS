@@ -32,8 +32,8 @@ const loginController = asyncHandler(async (req, res) => {
     res.cookie('token', token, {
         httpOnly: true,
         maxAge: 3600000,
-        sameSite: 'none',
-        secure: true,
+        // sameSite: 'none',
+        // secure: true,
         // domain: '.vercel.app',
     });
 
