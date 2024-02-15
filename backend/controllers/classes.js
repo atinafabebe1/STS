@@ -3,12 +3,45 @@ const Classes = require('../models/classes');
 const ErrorResponse = require('../utils/errorResponse');
 
 // Create a new classes
-const createClasses = asyncHandler(async (req, res) => {
-    console.log(req.body)
-    const classes = new Classes(req.body);
+const createClasses = asyncHandler(async (req, res, next) => {
+    const { gradeLevel, sectionsRange } = req.body;
+
+    // Validate gradeLevel
+    if (!gradeLevel || isNaN(parseInt(gradeLevel)) || !Number.isInteger(parseFloat(gradeLevel))) {
+        return next(new ErrorResponse('Invalid grade level', 401));
+    }
+
+    // Validate sectionsRange
+    const sections = generateSectionsArray(sectionsRange);
+    if (!sections || sections.length === 0) {
+        return next(new ErrorResponse('Invalid sections range format', 401));
+    }
+
+    const classes = new Classes({
+        gradeLevel: parseInt(gradeLevel),
+        sections,
+    });
+
     await classes.save();
     res.status(201).json({ classes });
 });
+
+const generateSectionsArray = (range) => {
+    if (!range || range.length < 3 || !/^[A-Z]-[A-Z]$/.test(range)) {
+        throw new Error('Invalid sections range format');
+    }
+
+    const startChar = range.charAt(0).toUpperCase();
+    const endChar = range.charAt(2).toUpperCase();
+    const sections = [];
+
+    for (let charCode = startChar.charCodeAt(0); charCode <= endChar.charCodeAt(0) - 1; charCode++) {
+        sections.push(String.fromCharCode(charCode));
+    }
+
+    return sections;
+};
+
 
 // Get all classess
 const getAllClassess = asyncHandler(async (req, res) => {
