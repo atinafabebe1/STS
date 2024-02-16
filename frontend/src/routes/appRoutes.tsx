@@ -21,6 +21,8 @@ import TranscriptsPageLayout from "../pages/transcripts/TranscriptPageLayout";
 import ViewTranscripts from "../pages/transcripts/ViewTranscripts";
 import AddGrade from "../pages/grades/AddNewGrade";
 import AddNewClasses from "../pages/classes/AddNewClasses";
+import AddClassToAcamdeicYear from "../pages/academicYears/AddClassesAndAcademicYear";
+import AcademicYearPageLayout from "../pages/academicYears/AcadmicYearPageLayout";
 
 const appRoutes: RouteType[] = [
  
@@ -244,21 +246,21 @@ const appRoutes: RouteType[] = [
   },
   {
     path: "/enrollment",
-    element: <SubjectsPageLayout />,
+    element: <AcademicYearPageLayout />,
     state: "enrollment",
     visibleOn:["Director"],
     sidebarProps: {
-      displayText: "Enrollments",
+      displayText: "Academic Year",
       icon: <ClassRounded />
     },
     child: [
       {
-        path: "/enrollment/view",
-        element: <AddNewClasses />,
+        path: "/enrollment/acamdeicYear",
+        element: <AddClassToAcamdeicYear />,
         state: "enrollment.view",
         visibleOn:["Director"],
         sidebarProps: {
-          displayText: "Classes"
+          displayText: "New Year"
         },
       },
       {
@@ -283,6 +285,16 @@ const appRoutes: RouteType[] = [
         visibleOn:["Director"],
       },
     ]
+  },
+   {
+    path: "/classes",
+    element: <AddNewClasses />,
+    state: "classes",
+    visibleOn:["Director"],
+    sidebarProps: {
+      displayText: "Classes",
+      icon: <ClassRounded />
+    }
   },
    {
     path: "/reports",

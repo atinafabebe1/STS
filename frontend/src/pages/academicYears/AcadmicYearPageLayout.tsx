@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
 
-const StreamPageLayout = () => {
+const AcademicYearPageLayout = () => {
   return (
     <><Outlet /></>
   );
 };
 
-export default StreamPageLayout;
+export default AcademicYearPageLayout;

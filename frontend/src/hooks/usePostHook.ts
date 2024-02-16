@@ -15,6 +15,9 @@ const usePostHook = (url: string) => {
   const [successMessage, setSuccessMessage] = useState<string>('');
 
   const handleSubmit = async (formData: FormData) => {
+    console.log("formData")
+    console.log(formData)
+    console.log("formData")
     setIsLoading(true);
     try {
       const response: AxiosResponse = await axios.post(url, formData);
