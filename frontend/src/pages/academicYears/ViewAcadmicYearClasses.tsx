@@ -12,18 +12,19 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody
+  TableBody,
+  Button,
 } from '@mui/material';
-import { useParams } from 'react-router-dom';
-import { Delete } from '@mui/icons-material';
+import { useParams, Link } from 'react-router-dom';
+import { Edit, Delete } from '@mui/icons-material';
 import useFetch from '../../hooks/useFetchHook';
 import colorConfigs from '../../configs/colorConfigs';
 import { BASE_URL } from '../../api/api';
 
-const ViewStreamSubjects: React.FC = () => {
-  const { streamId } = useParams();
+const ViewAcademicYearClasses: React.FC = () => {
+  const { academicYearId } = useParams();
 
-  const { data, loading, error } = useFetch({ url: `${BASE_URL}/streams?_id=${streamId}` });
+  const { data, loading, error } = useFetch({ url: `${BASE_URL}/academicYears?_id=${academicYearId}` });
 
   if (loading) {
     return <CircularProgress />;
@@ -37,48 +38,66 @@ const ViewStreamSubjects: React.FC = () => {
     );
   }
 
-  const handleDeleteClick = (streamId: string) => {
-    console.log(streamId);
+  const handleEditClick = (classId: string) => {
+    console.log(`Edit Class: ${classId}`);
+  };
+
+  const handleDeleteClick = (classId: string) => {
+    console.log(`Delete Class: ${classId}`);
   };
 
   const tableCellStyle = {
     color: colorConfigs.text,
-    backgroundColor: colorConfigs.background
+    backgroundColor: colorConfigs.background,
   };
 
   const iconButtonStyle = {
-    color: colorConfigs.primary
+    color: colorConfigs.primary,
+  };
+
+  const buttonStyle = {
+    color: colorConfigs.text,
+    backgroundColor: colorConfigs.primary,
   };
 
   return (
     <div style={{ backgroundColor: colorConfigs.mainBg, padding: '16px' }}>
       <Typography variant="h4" gutterBottom style={{ color: colorConfigs.text }}>
-        Subjects Under
+        Class Rooms Under
         {data[0] && (
           <>
             {' '}
-            <span style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{data[0].name}</span>{' '}
+            <span style={{ fontStyle: 'italic', fontWeight: 'bold' }}>{data[0].year}</span>{' '}
           </>
         )}
-        Stream
+        Academic Year
       </Typography>
 
-      {data[0] && data[0]?.subjects.length > 0 ? (
+      {data[0] && data[0]?.classes.length > 0 ? (
         <TableContainer component={Paper} style={{ backgroundColor: colorConfigs.paper, marginBottom: '16px' }}>
           <Table size="small">
             <TableHead>
               <TableRow style={{ backgroundColor: colorConfigs.primary }}>
-                <TableCell style={{ color: colorConfigs.secondaryText }}>Subject Name</TableCell>
+                <TableCell style={{ color: colorConfigs.secondaryText }}>Grade Level</TableCell>
+                <TableCell style={{ color: colorConfigs.secondaryText }}>Sections</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data[0].subjects.map((subject: any) => (
-                <TableRow key={subject.id} style={tableCellStyle}>
-                  <TableCell style={tableCellStyle}>{subject.name}</TableCell>
+              {data[0].classes.map((classInfo: any) => (
+                <TableRow key={classInfo.id} style={tableCellStyle}>
+                  <TableCell style={tableCellStyle}>{classInfo.gradeLevel}</TableCell>
+                  <TableCell style={tableCellStyle}>
+                    {classInfo.sections.join(', ')}
+                  </TableCell>
                   <TableCell>
-                    <Tooltip title="Delete Subject" arrow>
-                      <IconButton size='small' onClick={() => handleDeleteClick(subject.id)} style={iconButtonStyle}>
+                    <Tooltip title="Edit Class" arrow>
+                      <IconButton size='small' onClick={() => handleEditClick(classInfo.id)} style={iconButtonStyle}>
+                        <Edit />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete Class" arrow>
+                      <IconButton size='small' onClick={() => handleDeleteClick(classInfo.id)} style={iconButtonStyle}>
                         <Delete />
                       </IconButton>
                     </Tooltip>
@@ -90,11 +109,12 @@ const ViewStreamSubjects: React.FC = () => {
         </TableContainer>
       ) : (
         <Typography variant="body1" style={{ color: colorConfigs.text }}>
-          No school streams available.
+          No classes available for the selected academic year.
         </Typography>
       )}
+     
     </div>
   );
 };
 
-export default ViewStreamSubjects;
+export default ViewAcademicYearClasses;

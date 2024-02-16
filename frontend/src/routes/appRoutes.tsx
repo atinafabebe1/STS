@@ -23,6 +23,8 @@ import AddGrade from "../pages/grades/AddNewGrade";
 import AddNewClasses from "../pages/classes/AddNewClasses";
 import AddClassToAcamdeicYear from "../pages/academicYears/AddClassesAndAcademicYear";
 import AcademicYearPageLayout from "../pages/academicYears/AcadmicYearPageLayout";
+import ViewAcademicYears from "../pages/academicYears/ViewAcadmicYear";
+import ViewAcademicYearClasses from "../pages/academicYears/ViewAcadmicYearClasses";
 
 const appRoutes: RouteType[] = [
  
@@ -245,9 +247,9 @@ const appRoutes: RouteType[] = [
     ]
   },
   {
-    path: "/enrollment",
+    path: "/academicYear",
     element: <AcademicYearPageLayout />,
-    state: "enrollment",
+    state: "academicYear",
     visibleOn:["Director"],
     sidebarProps: {
       displayText: "Academic Year",
@@ -255,33 +257,33 @@ const appRoutes: RouteType[] = [
     },
     child: [
       {
-        path: "/enrollment/acamdeicYear",
+        path: "/academicYear/new",
         element: <AddClassToAcamdeicYear />,
-        state: "enrollment.view",
+        state: "academicYear.new",
         visibleOn:["Director"],
         sidebarProps: {
           displayText: "New Year"
         },
       },
       {
-        path: "/enrollment/add",
-        element: <AddNewSubject />,
-        state: "enrollment.add",
+        path: "/academicYear/view",
+        element: <ViewAcademicYears />,
+        state: "academicYear.view",
         visibleOn:["Director"],
         sidebarProps: {
-          displayText: "Academic Year"
+          displayText: "Academic Years"
         }
       },
       {
-        path: "/enrollment/edit/:subjectId",
-        element: <HomePage />,
-        state: "enrollment.edit",
+        path: "/academicYear/classes/:academicYearId",
+        element: <ViewAcademicYearClasses />,
+        state: "academicYear.edit",
         visibleOn:["Director"],
       },
       {
-        path: "/enrollment/remove/:subjectId",
+        path: "/academicYear/remove/:subjectId",
         element: <HomePage />,
-        state: "enrollment.remove",
+        state: "academicYear.remove",
         visibleOn:["Director"],
       },
     ]

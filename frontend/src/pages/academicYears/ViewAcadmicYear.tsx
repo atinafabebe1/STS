@@ -20,8 +20,8 @@ import useFetch from '../../hooks/useFetchHook';
 import colorConfigs from '../../configs/colorConfigs';
 import { BASE_URL } from '../../api/api';
 
-const ViewStreams: React.FC = () => {
-  const { data, loading, error } = useFetch({ url: `${BASE_URL}/streams` });
+const ViewAcademicYears: React.FC = () => {
+  const { data, loading, error } = useFetch({ url: `${BASE_URL}/academicYears` });
 
   if (loading) {
     return <CircularProgress />;
@@ -35,15 +35,13 @@ const ViewStreams: React.FC = () => {
     );
   }
 
-  const handleEditClick = (streamId: string) => {
-    console.log(streamId)
+  const handleEditClick = (academicYearId: string) => {
+    console.log(academicYearId);
   };
-  
-  const handleDeleteClick = (streamId: string) => {
-    console.log(streamId)
-  };
-  
 
+  const handleDeleteClick = (academicYearId: string) => {
+    console.log(academicYearId);
+  };
 
   const tableCellStyle = {
     color: colorConfigs.text,
@@ -62,7 +60,7 @@ const ViewStreams: React.FC = () => {
   return (
     <div style={{ backgroundColor: colorConfigs.mainBg, padding: '16px' }}>
       <Typography variant="h4" gutterBottom style={{ color: colorConfigs.text }}>
-        Streams
+        Academic Years
       </Typography>
 
       {data && data.length > 0 ? (
@@ -70,37 +68,34 @@ const ViewStreams: React.FC = () => {
           <Table size='small'>
             <TableHead>
               <TableRow style={{ backgroundColor: colorConfigs.primary }}>
-                <TableCell style={{ color: colorConfigs.secondaryText }}>Stream Name</TableCell>
+                <TableCell style={{ color: colorConfigs.secondaryText }}>Year</TableCell>
+                <TableCell style={{ color: colorConfigs.secondaryText }}>Total Classes</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.map((stream: any) => (
-                <TableRow key={stream.id} style={tableCellStyle}>
+              {data.map((academicYear: any) => (
+                <TableRow key={academicYear.id} style={tableCellStyle}>
                   <TableCell style={tableCellStyle}>
-                    {stream.name}
-                    <Link  to={`/stream/subjects/${stream._id}`} style={linkStyle}>
-                      View Subjects
-                    </Link>
-                    <Link to={`/stream/subjects/add/${stream._id}`} style={linkStyle}>
-                      Add Subject
+                    {academicYear.year}
+                    <Link to={`/academicYear/classes/${academicYear._id}`} style={linkStyle}>
+                      View Class Rooms
                     </Link>
                   </TableCell>
+                  <TableCell style={tableCellStyle}>
+                    {academicYear.classes.length}
+                  </TableCell>
                   <TableCell>
-
-                    <Tooltip title="Edit Stream" arrow>
-                      <IconButton size='small' onClick={() => handleEditClick(stream.id)} style={iconButtonStyle}>
+                    <Tooltip title="Edit Academic Year" arrow>
+                      <IconButton size='small' onClick={() => handleEditClick(academicYear.id)} style={iconButtonStyle}>
                         <Edit />
                       </IconButton>
                     </Tooltip>
-
-                    <Tooltip title="Delete Stream" arrow>
-                      <IconButton size='small' onClick={() => handleDeleteClick(stream.id)} style={iconButtonStyle}>
+                    <Tooltip title="Delete Academic Year" arrow>
+                      <IconButton size='small' onClick={() => handleDeleteClick(academicYear.id)} style={iconButtonStyle}>
                         <Delete />
                       </IconButton>
                     </Tooltip>
-
-                    
                   </TableCell>
                 </TableRow>
               ))}
@@ -109,11 +104,11 @@ const ViewStreams: React.FC = () => {
         </TableContainer>
       ) : (
         <Typography variant="body1" style={{ color: colorConfigs.text }}>
-          No school streams available.
+          No academic years available.
         </Typography>
       )}
     </div>
   );
 };
 
-export default ViewStreams;
+export default ViewAcademicYears;

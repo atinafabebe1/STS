@@ -19,6 +19,7 @@ const usePostHook = (url: string) => {
     console.log(formData)
     console.log("formData")
     setIsLoading(true);
+    setSuccessMessage('')
     try {
       const response: AxiosResponse = await axios.post(url, formData);
       console.log(response);

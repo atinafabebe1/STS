@@ -16,7 +16,9 @@ import {
   Step,
   StepLabel,
   FormGroup,
-  SelectChangeEvent
+  SelectChangeEvent,
+  Alert,
+  CircularProgress
 } from '@mui/material';
 import usePostHook from '../../hooks/usePostHook';
 import useFetch from '../../hooks/useFetchHook';
@@ -30,13 +32,19 @@ interface Class {
 }
 
 const AddClassToAcademicYear: React.FC = () => {
-  const { handleSubmit } = usePostHook(`${BASE_URL}/academicYears/addClassToAcademicYear`);
+  const {
+    isLoading,
+    error,
+    handleSubmit,
+    successMessage
+  } = usePostHook(`${BASE_URL}/academicYears/addClassToAcademicYear`);
   const { data: classesData } = useFetch({ url: `${BASE_URL}/classes` });
 
   const [activeStep, setActiveStep] = useState<number>(0);
   const [academicYear, setAcademicYear] = useState<string>('');
   const [selectedGradeLevels, setSelectedGradeLevels] = useState<string[]>([]);
   const [selectedSections, setSelectedSections] = useState<Record<string, string[]>>({});
+  const [showSuccessMessage, setShowSuccessMessage] = useState<boolean>(false);
 
   useEffect(() => {
     console.log(classesData);
@@ -78,6 +86,16 @@ const AddClassToAcademicYear: React.FC = () => {
   const handleFormSubmit = () => {
     console.log('Submitted:', { academicYear, selectedGradeLevels, selectedSections });
     handleSubmit({ academicYear, gradeLevels: selectedGradeLevels, sections: selectedSections });
+
+    setShowSuccessMessage(true);
+
+    setTimeout(() => {
+      setAcademicYear('');
+      setSelectedGradeLevels([]);
+      setSelectedSections({});
+      setActiveStep(0);
+      setShowSuccessMessage(false);
+    }, 6000);
   };
 
   const getSteps = () => ['Select Academic Year', 'Select Grade Levels', 'Select Sections'];
@@ -88,7 +106,7 @@ const AddClassToAcademicYear: React.FC = () => {
     <Box>
       <Paper elevation={3} style={{ padding: '16px', marginBottom: '30px' }}>
         <Typography variant="h4" gutterBottom style={{ color: colorConfigs.text }}>
-          Register New Acadmic Year
+          Register New Academic Year
         </Typography>
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label) => (
@@ -148,7 +166,12 @@ const AddClassToAcademicYear: React.FC = () => {
                         .map((section) => (
                           <FormControlLabel
                             key={section}
-                            control={<Checkbox checked={selectedSections[gradeLevel]?.includes(section)} onChange={() => handleSectionsChange(gradeLevel, section)} />}
+                            control={
+                              <Checkbox
+                                checked={selectedSections[gradeLevel]?.includes(section)}
+                                onChange={() => handleSectionsChange(gradeLevel, section)}
+                              />
+                            }
                             label={section}
                           />
                         ))}
@@ -169,10 +192,22 @@ const AddClassToAcademicYear: React.FC = () => {
               <Button variant="outlined" color="primary" onClick={handleBackClick}>
                 Back
               </Button>
-              <Button variant="contained" color="primary" onClick={activeStep === steps.length - 1 ? handleFormSubmit : handleNextClick}>
-                {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={activeStep === steps.length - 1 ? handleFormSubmit : handleNextClick}
+                disabled={isLoading}
+              >
+                {!isLoading && activeStep === steps.length - 1 ? 'Submit' : 'Next'}
+                {isLoading && <CircularProgress size={24} color="inherit" />}
               </Button>
             </>
+          )}
+          {!isLoading && error && <Alert severity="error">{error}</Alert>}
+          {showSuccessMessage && successMessage && (
+            <Alert severity="success" onClose={() => setShowSuccessMessage(false)}>
+              {successMessage}
+            </Alert>
           )}
         </Box>
       </Paper>
