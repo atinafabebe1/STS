@@ -14,13 +14,18 @@ import {
   TableCell,
   TableBody
 } from '@mui/material';
-import { Edit, Delete } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Edit, Delete, Add } from '@mui/icons-material';
+import { Link, useNavigate } from 'react-router-dom';
 import useFetch from '../../hooks/useFetchHook';
 import colorConfigs from '../../configs/colorConfigs';
 import { BASE_URL } from '../../api/api';
+import { useUserContext } from '../../context/userContext';
 
 const ViewStudents: React.FC = () => {
+  const navigate = useNavigate();
+
+  const { user } = useUserContext();
+
   const { data, loading, error } = useFetch({ url: `${BASE_URL}/students` });
 
   if (loading) {
@@ -38,6 +43,9 @@ const ViewStudents: React.FC = () => {
   const handleEditClick = (studentId: string) => {
     // Handle edit click logic
     console.log(studentId);
+  };
+  const handleAddGradeClicked = (studentId: string) => {
+    navigate(`/grades/add/${studentId}`)
   };
 
   const handleDeleteClick = (studentId: string) => {
@@ -76,9 +84,10 @@ const ViewStudents: React.FC = () => {
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Age</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Stream</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Section</TableCell>
-                <TableCell style={{ color: colorConfigs.secondaryText }}>ID Number</TableCell>
+                <TableCell style={{ color: colorConfigs.secondaryText }}>ID</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Gender</TableCell>
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Transcript</TableCell>
+                {user?.role === 'Secretary' && <TableCell style={{ color: colorConfigs.secondaryText }}>Grade</TableCell>}
                 <TableCell style={{ color: colorConfigs.secondaryText }}>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -92,18 +101,28 @@ const ViewStudents: React.FC = () => {
                   <TableCell style={tableCellStyle}>{student.idNumber}</TableCell>
                   <TableCell style={tableCellStyle}>{student.gender}</TableCell>
                   <TableCell style={tableCellStyle} sx={{ ...linkStyle }}>
-                    <Link to={`/transcript/view/${student._id}`} style={{cursor: 'pointer', textDecoration: 'none', color: 'dodgerblue' }}>
+                    <Link to={`/transcript/view/${student._id}`} style={{ cursor: 'pointer', textDecoration: 'none', color: 'dodgerblue' }}>
                       See Transcript
                     </Link>
                   </TableCell>
+                  {user?.role === 'Secretary' && (
+                    <TableCell style={tableCellStyle} sx={{ ...linkStyle }}>
+                      <Tooltip title="Add Grade" arrow>
+                        <IconButton size="small" onClick={() => handleAddGradeClicked(student._id)} style={iconButtonStyle}>
+                          <Add />
+                        </IconButton>
+                      </Tooltip>
+                    </TableCell>
+                  )}
+
                   <TableCell>
                     <Tooltip title="Edit Student" arrow>
-                      <IconButton onClick={() => handleEditClick(student.id)} style={iconButtonStyle}>
+                      <IconButton size="small" onClick={() => handleEditClick(student._id)} style={iconButtonStyle}>
                         <Edit />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Delete Student" arrow>
-                      <IconButton onClick={() => handleDeleteClick(student.id)} style={iconButtonStyle}>
+                      <IconButton size="small" onClick={() => handleDeleteClick(student._id)} style={iconButtonStyle}>
                         <Delete />
                       </IconButton>
                     </Tooltip>

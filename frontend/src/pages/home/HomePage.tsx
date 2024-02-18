@@ -1,7 +1,10 @@
+import StudentOne from "../../components/transcript/studentone";
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <StudentOne/>
+    </div>
   );
 };
 

@@ -23,6 +23,7 @@ const AddNewStudent = () => {
     { name: 'fullName', label: 'Full Name', type: 'text' },
     { name: 'age', label: 'Age', type: 'number' },
     { name: 'stream', label: 'Stream Type', type: 'dropdown', options: ['General', 'Natural-Science', 'Social-Science'] },
+    { name: 'gradeLevel', label: 'Grade Level', type: 'dropdown', options: ["9",'10','11','12'] },
     { name: 'section', label: 'Section', type: 'text' },
     { name: 'idNumber', label: 'ID Number', type: 'text' },
     { name: 'gender', label: 'Gender', type: 'dropdown', options: ['M', 'F'] },
