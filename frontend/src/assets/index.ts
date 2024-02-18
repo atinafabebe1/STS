@@ -1,4 +1,4 @@
-import logo from "./images/logo.jpeg";
+import logo from "./yaberusLogo.png";
 
 const assets = {
   images: {

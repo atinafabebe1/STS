@@ -3,16 +3,20 @@ const mongoose = require('mongoose');
 const studentSchema = new mongoose.Schema({
     fullName: {
         type: String,
-        required: [true, 'Section is required']
+        required: [true, 'Fullname is required']
     },
     age: {
         type: Number,
-        required: [true, 'Section is required']
+        required: [true, 'age is required']
     },
     stream: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Stream',
-        required: [true, 'Section is required']
+        required: [true, 'stream is required']
+    },
+    gradeLevel: {
+        type: String,
+        required: [true, 'grade level is required'],
     },
     section: {
         type: String,
@@ -20,7 +24,7 @@ const studentSchema = new mongoose.Schema({
     },
     idNumber: {
         type: String,
-        required: [true, 'Section is required'],
+        required: [true, 'id number is required'],
         unique: {
             value: true,
             message: 'The provided idNumber is already in use.'
@@ -29,11 +33,11 @@ const studentSchema = new mongoose.Schema({
     gender: {
         type: String,
         enum: ['M', 'F'],
-        required: [true, 'Section is required']
+        required: [true, 'gender is required']
     },
     dateOfAdmission: {
         type: Date,
-        required: [true, 'Section is required']
+        required: [true, 'Date of Admission is required']
     },
     dateOfLeaving: Date
 });

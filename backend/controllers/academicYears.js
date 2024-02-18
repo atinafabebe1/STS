@@ -30,7 +30,7 @@ const getAcademicYearById = asyncHandler(async (req, res) => {
 const updateAcademicYearById = asyncHandler(async (req, res) => {
     const allowedUpdates = ['name'];
     const updates = req.body;
-    const isValidOperation = Object.keys(updates).every(update => allowedUpdates.includes(update));
+    const isValidOperation = Object.keys(updates).every((update) => allowedUpdates.includes(update));
 
     if (!isValidOperation) {
         return next(new ErrorResponse('Invalid updates!', 400));
@@ -57,26 +57,32 @@ const deleteAcademicYearById = asyncHandler(async (req, res) => {
 });
 
 // Add classes to a academicYear
-const addClassesToAcademicYear = asyncHandler(async (req, res) => {
-    const { academicYearId, name } = req.body;
+const addClassesToAcademicYear = asyncHandler(async (req, res, next) => {
+    const { academicYear, gradeLevels, sections } = req.body;
 
-    // Find academicYear by ID
-    const academicYear = await AcademicYear.findById(academicYearId);
-    if (!academicYear) {
-        return next(new ErrorResponse('AcademicYear not found', 404));
+    const selectedGradeLevels = await Classes.find({ gradeLevel: { $in: gradeLevels } });
+
+    console.log(selectedGradeLevels)
+
+    if (gradeLevels.length !== selectedGradeLevels.length) {
+        return next(new ErrorResponse("Some grade levels don't exist in the database. Please use only the dropdown values!", 404));
     }
-
-    const classes = await Classes.find({ name: { $in: name } });
-
-    if (classes.length === 0) {
-        return next(new ErrorResponse('Classess not found', 404));
+    const prevAcademicYear = await AcademicYear.findOne({ year: academicYear })
+    if (prevAcademicYear) {
+        return next(new ErrorResponse("You have already saved saved this acadmic year", 404));
     }
+    const classesData = gradeLevels.map((level) => ({
+        gradeLevel: level,
+        sections: sections[level] || [],
+    }));
+    console.log(classesData)
 
-    academicYear.classes?.push(...classes.map(gradeLevel => gradeLevel._id));
+    const newAcademicYear = await AcademicYear.create({
+        year: academicYear,
+        classes: classesData
+    });
 
-    await academicYear.save();
-
-    res.status(200).json({ message: 'Classess added to academicYear successfully', academicYear });
+    res.status(200).json({ message: 'Academic Year saved successfully', newAcademicYear });
 });
 
 module.exports = {
