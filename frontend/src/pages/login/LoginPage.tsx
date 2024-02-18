@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useUserContext } from '../../context/userContext';
 import colorConfigs from '../../configs/colorConfigs';
+import schoolLogo from '../../assets/logo.png';
 
 const LoginPage = () => {
   const { loading, login, error } = useUserContext();
@@ -24,11 +25,12 @@ const LoginPage = () => {
     <Box
       sx={{
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
         padding: '20px',
-        background: colorConfigs.background,
+        background: `linear-gradient(${colorConfigs.background})`,
       }}
     >
       <Paper
@@ -40,11 +42,15 @@ const LoginPage = () => {
           borderRadius: '10px',
           textAlign: 'center',
           background: colorConfigs.paper,
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
         }}
       >
+        <img src={schoolLogo} alt="Yabersu Logo" style={{ marginBottom: '20px', maxWidth: '200px' }} />
+
         <Typography variant="h4" sx={{ marginBottom: '20px', color: colorConfigs.primary }}>
-          Login
+          Yaberus High School
         </Typography>
+
         <TextField
           label="Username"
           variant="outlined"
@@ -52,7 +58,7 @@ const LoginPage = () => {
           onChange={(e) => setUsername(e.target.value)}
           placeholder="Enter your username"
           fullWidth
-          sx={{ marginBottom: '15px' }}
+          sx={{ marginBottom: '15px', '& .Mui-focused': { borderColor: colorConfigs.primary } }}
         />
         <TextField
           label="Password"
@@ -62,18 +68,37 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Enter your password"
           fullWidth
-          sx={{ marginBottom: '15px' }}
+          sx={{ marginBottom: '20px', '& .Mui-focused': { borderColor: colorConfigs.primary } }}
         />
         <Button
           variant="contained"
           color="primary"
           onClick={handleLogin}
           fullWidth
-          sx={{ marginBottom: '15px', backgroundColor: colorConfigs.primary }}
+          sx={{
+            marginBottom: '15px',
+            backgroundColor: colorConfigs.primary,
+            borderRadius: '25px',
+            position: 'relative',
+            '&:hover': {
+              backgroundColor: colorConfigs.primary,
+            },
+          }}
         >
-          {loading ? <CircularProgress size={24} color="inherit" /> : 'Login'}
+          {loading ? (
+            <>
+              <CircularProgress size={24} color="inherit" sx={{ position: 'absolute', left: '50%', top: '50%', marginLeft: '-12px', marginTop: '-12px' }} />
+              <span style={{ opacity: loading ? 0 : 1 }}>Login</span>
+            </>
+          ) : (
+            'Login'
+          )}
         </Button>
-        {error && <Alert severity="error">{error}</Alert>}
+        {error && (
+          <Alert severity="error" sx={{ marginBottom: '15px', borderRadius: '10px' }}>
+            {error}
+          </Alert>
+        )}
       </Paper>
     </Box>
   );
