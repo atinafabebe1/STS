@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import colorConfigs from '../../configs/colorConfigs';
-import { Print, Edit } from '@mui/icons-material';
+import { Edit, Grade } from '@mui/icons-material';
 
 interface Grade {
   _id: string;
@@ -58,19 +58,8 @@ const TranscriptCard: React.FC<TranscriptCardProps> = ({ transcript }) => {
             Academic Year: {transcript.academicYear}
           </Typography>
           <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-            <Button
-              size="small"
-              variant="contained"
-              style={{
-                background: 'none',
-                border: 'none',
-                boxShadow: 'none',
-                marginLeft: '20px'
-              }}
-              startIcon={<Print />}
-            >
-              Print
-            </Button>
+            
+            
             <Button
               size="small"
               variant="contained"

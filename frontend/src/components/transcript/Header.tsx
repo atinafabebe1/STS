@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import assets from '../../assets';
 
 const styles = {
   header: {
@@ -39,7 +40,7 @@ class Header extends React.Component {
         <Grid item>
           <img
             alt="image"
-            src="https://images.unsplash.com/photo-1587987501183-33e43fdde781?ixid=M3w5MTMyMXwwfDF8c2VhcmNofDF8fHNjaG9vbCUyMGxvZ298ZW58MHx8fHwxNzA4MTc5MjQ3fDA&amp;ixlib=rb-4.0.3&amp;w=200"
+            src={assets.images.logo}
             style={styles.logo as React.CSSProperties} // Type assertion
           />
         </Grid>

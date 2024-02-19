@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import ComponentToPrint from "./PrintableTranscript";
+import { Button } from "@mui/material";
 
 export default function PrintComponent() {
   const componentRef = useRef<ComponentToPrint>(null);
@@ -8,13 +9,11 @@ export default function PrintComponent() {
   return (
     <>
       <div>
-        {/* Button to trigger printing of target component */}
         <ReactToPrint
-          trigger={() => <button style={{margin:"50px"}}>Print this out!</button>}
+          trigger={() => <Button  variant="contained" color="primary" style={{margin:"50px"}}>Print Transcript</Button>}
           content={() => componentRef.current}
           
         />
-        {/* Component to be printed */}
         <ComponentToPrint ref={componentRef} />
       </div>
     </>
