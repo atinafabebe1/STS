@@ -15,7 +15,7 @@ const getGradeById = asyncHandler(async (req, res) => {
 });
 
 const createGrade = asyncHandler(async (req, res, next) => {
-    const { student, semester, academicYear, ...subjectsAndMarks } = req.body;
+    const { rank, student, semester, academicYear, ...subjectsAndMarks } = req.body;
 
     try {
         const existingStudent = await Student.findById(student);
@@ -33,10 +33,11 @@ const createGrade = asyncHandler(async (req, res, next) => {
         if (missingSubjects.length != 0) {
             return next(new ErrorResponse("Incomplete Submission: Please provide all required fields.", 400));
         }
-
         const invalidSubjects = Object.entries(subjectsAndMarks).filter(
             ([subject]) => !stream.subjects.some((subjectItem) => subjectItem._id.toString() === subject)
         );
+        console.log("invalidSubjects")
+        console.log(invalidSubjects)
 
         if (invalidSubjects.length > 0) {
             return next(new ErrorResponse("Some subjects do not exist in the student's stream", 400));
@@ -70,6 +71,16 @@ const createGrade = asyncHandler(async (req, res, next) => {
         if (transcript) {
             const totalGrades = [...savedGrades, ...transcript.grades];
 
+            if (rank) {
+                await Transcript.findByIdAndUpdate(transcript._id, {
+                    student,
+                    academicYear,
+                    grades: totalGrades.map((grade) => grade._id),
+                    totalMarks,
+                    average,
+                    rank
+                });
+            }
             await Transcript.findByIdAndUpdate(transcript._id, {
                 student,
                 academicYear,
