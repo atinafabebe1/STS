@@ -26,7 +26,7 @@ const usePostHook = (url: string) => {
       handleRefresh();
       setSuccessMessage('Successfully Submitted');
       setError('');
-    } catch (error: any) { // Explicitly define error as AxiosError
+    } catch (error: any) { 
       console.log(error.response?.data?.error);
       setSuccessMessage('');
       if (error.response?.data?.error) {

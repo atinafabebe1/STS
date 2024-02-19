@@ -39,7 +39,9 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
     const value = typeof e === 'string' ? e : e.target.value;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value as string }));
   };
-
+  // if (successMessage) {
+  //   setFormData({});
+  // }
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (streamId) {
@@ -52,8 +54,6 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
       onSubmit(formData);
     }
   };
-
-  
 
   return (
     <form>
@@ -104,11 +104,10 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
               color={color}
               type={type}
               onClick={(e) => {
-                console.log("Called")
-                console.log("Called")
-                console.log("Called")
+                console.log('Called');
+                console.log('Called');
+                console.log('Called');
                 onClick && handleSubmit(e);
-                setFormData({});
               }}
               style={{ margin: '0 10px' }}
             >
@@ -117,11 +116,7 @@ const DynamicMaterialUIForm: React.FC<DynamicMaterialUIFormProps> = ({ onSubmit,
           ))}
         </Box>
         {!isLoading && error && <Alert severity="error">{error}</Alert>}
-        {!isLoading && successMessage && (
-          <Alert severity="success">
-            {successMessage}
-          </Alert>
-        )}
+        {!isLoading && successMessage && <Alert severity="success">{successMessage}</Alert>}
       </Box>
     </form>
   );
