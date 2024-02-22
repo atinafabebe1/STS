@@ -63,6 +63,10 @@ const LoginPage = () => {
           Yaberus High School
         </Typography>
 
+        <Typography variant="body2" color="textSecondary" sx={{ marginBottom: '10px' }}>
+          Select a demo account:
+        </Typography>
+
         <RadioGroup
           aria-label="role"
           name="role"
@@ -71,8 +75,8 @@ const LoginPage = () => {
           row
           sx={{ marginBottom: '15px' }}
         >
-          <FormControlLabel value="Director" control={<Radio />} label="Director" />
-          <FormControlLabel value="Secretary" control={<Radio />} label="Secretary" />
+          <FormControlLabel value="Director" control={<Radio />} label="Director Demo" />
+          <FormControlLabel value="Secretary" control={<Radio />} label="Secretary Demo" />
         </RadioGroup>
 
         <TextField
