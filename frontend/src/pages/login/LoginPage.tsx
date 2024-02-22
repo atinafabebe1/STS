@@ -29,6 +29,8 @@ const LoginPage = () => {
     };
 
     const selectedCredentials = credentials[role];
+    setUsername(selectedCredentials.username);
+    setPassword(selectedCredentials.password);
     login(selectedCredentials);
   };
 
@@ -77,9 +79,8 @@ const LoginPage = () => {
           label="Username"
           variant="outlined"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter your username"
           fullWidth
+          disabled
           sx={{ marginBottom: '15px', '& .Mui-focused': { borderColor: colorConfigs.primary } }}
         />
         <TextField
@@ -87,9 +88,8 @@ const LoginPage = () => {
           type="password"
           variant="outlined"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
           fullWidth
+          disabled
           sx={{ marginBottom: '20px', '& .Mui-focused': { borderColor: colorConfigs.primary } }}
         />
 
