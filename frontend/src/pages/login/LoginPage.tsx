@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   TextField,
   Button,
@@ -7,6 +7,10 @@ import {
   Typography,
   Paper,
   Alert,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  Container,
 } from '@mui/material';
 import { useUserContext } from '../../context/userContext';
 import colorConfigs from '../../configs/colorConfigs';
@@ -16,28 +20,34 @@ const LoginPage = () => {
   const { loading, login, error } = useUserContext();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('Director');
 
   const handleLogin = () => {
-    login({ username, password });
+    const credentials = {
+      Director: { username: 'Director', password: 'abcdabcd' },
+      Secretary: { username: 'Secretary', password: 'abcdabcd' },
+    };
+
+    const selectedCredentials = credentials[role];
+    login(selectedCredentials);
   };
 
   return (
-    <Box
+    <Container
+      component="main"
+      maxWidth="xs"
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
+        justifyContent: 'center',
         minHeight: '100vh',
-        padding: '20px',
-        background: `linear-gradient(${colorConfigs.background})`,
       }}
     >
       <Paper
         elevation={3}
         sx={{
           padding: '30px',
-          maxWidth: '400px',
           width: '100%',
           borderRadius: '10px',
           textAlign: 'center',
@@ -47,9 +57,21 @@ const LoginPage = () => {
       >
         <img src={schoolLogo} alt="Yabersu Logo" style={{ marginBottom: '20px', maxWidth: '200px' }} />
 
-        <Typography variant="h4" sx={{ marginBottom: '20px', color: colorConfigs.primary }}>
+        <Typography variant="h5" sx={{ marginBottom: '20px', color: colorConfigs.primary }}>
           Yaberus High School
         </Typography>
+
+        <RadioGroup
+          aria-label="role"
+          name="role"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          row
+          sx={{ marginBottom: '15px' }}
+        >
+          <FormControlLabel value="Director" control={<Radio />} label="Director" />
+          <FormControlLabel value="Secretary" control={<Radio />} label="Secretary" />
+        </RadioGroup>
 
         <TextField
           label="Username"
@@ -70,37 +92,36 @@ const LoginPage = () => {
           fullWidth
           sx={{ marginBottom: '20px', '& .Mui-focused': { borderColor: colorConfigs.primary } }}
         />
+
         <Button
           variant="contained"
           color="primary"
           onClick={handleLogin}
           fullWidth
+          disabled={loading}
           sx={{
             marginBottom: '15px',
             backgroundColor: colorConfigs.primary,
             borderRadius: '25px',
-            position: 'relative',
             '&:hover': {
               backgroundColor: colorConfigs.primary,
             },
           }}
         >
           {loading ? (
-            <>
-              <CircularProgress size={24} color="inherit" sx={{ position: 'absolute', left: '50%', top: '50%', marginLeft: '-12px', marginTop: '-12px' }} />
-              <span style={{ opacity: loading ? 0 : 1 }}>Login</span>
-            </>
+            <CircularProgress size={24} sx={{ marginRight: '10px' }} />
           ) : (
             'Login'
           )}
         </Button>
+
         {error && (
           <Alert severity="error" sx={{ marginBottom: '15px', borderRadius: '10px' }}>
             {error}
           </Alert>
         )}
       </Paper>
-    </Box>
+    </Container>
   );
 };
 
